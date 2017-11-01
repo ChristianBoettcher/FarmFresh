@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch (view.getId()) {
                 case R.id.submit_button:
-                    mListener.goSubmit();
+                    mListener.goPin();
                     //Submit returns to Login page.
                     break;
             }
@@ -75,6 +76,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
 
         void goSubmit();
+
+        void goPin();
 
     }
 

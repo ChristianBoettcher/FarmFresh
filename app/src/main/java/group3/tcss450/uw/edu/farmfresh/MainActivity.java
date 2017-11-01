@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
-    RegisterFragment.OnFragmentInteractionListener {
+    RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         LoginFragment lf = new LoginFragment();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction().replace(R.id.fragmentContainer, lf)
+                .addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void goPin() {
+        PinFragment pf = new PinFragment();
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction().replace(R.id.fragmentContainer, pf)
                 .addToBackStack(null);
         transaction.commit();
     }

@@ -90,6 +90,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
 
         void goRegister();
+
+        void goPin();
     }
 
 }
