@@ -6,7 +6,7 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/registration_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -17,32 +17,32 @@
         android:hint="Name" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/registration_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignLeft="@+id/registration_name"
+        android:layout_alignStart="@+id/registration_name"
+        android:layout_below="@+id/registration_name"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Email" />
 
     <EditText
-        android:id="@+id/password_register_edit_text"
+        android:id="@+id/registration_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText2"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_below="@+id/editText2"
+        android:layout_alignEnd="@+id/registration_email"
+        android:layout_alignRight="@+id/registration_email"
+        android:layout_below="@+id/registration_email"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/password_confirm_register_edit_text"
+        android:id="@+id/registration_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password_register_edit_text"
+        android:layout_below="@+id/registration_pass"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Confirm Password"
@@ -52,7 +52,17 @@
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password_confirm_register_edit_text"
+        android:layout_below="@+id/registration_confirm"
         android:layout_centerHorizontal="true"
         android:text="Submit" />
+
+    <ProgressBar
+        android:id="@+id/register_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registration_confirm"
+        android:layout_toEndOf="@+id/submit_button"
+        android:layout_toRightOf="@+id/submit_button"
+        android:visibility="gone" />
 </RelativeLayout>

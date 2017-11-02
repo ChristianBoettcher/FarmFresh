@@ -19,11 +19,26 @@ public class PinFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
+    private String user;
+    private String pass;
+    private String pin;
 
     public PinFragment() {
         // Required empty public constructor
+        user = "";
+        pass = "";
+        pin = "";
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getArguments() != null) {
+            user = getArguments().getString(getString(R.string.email_key));
+            pass = getArguments().getString(getString(R.string.password_key));
+            pin = getArguments().getString(getString(R.string.pincode_key));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,14 +57,8 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch(view.getId()) {
                 case R.id.pin_submit_button:
-                    mListener.goSubmit();
+                    mListener.submitPin(user, pass, pin);
             }
-        }
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
     }
 
@@ -72,11 +81,8 @@ public class PinFragment extends Fragment implements View.OnClickListener {
 
     public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Uri uri);
+        void submitPin(String user, String pass, String pin);
 
-        void goSubmit();
-
-        void goPin();
     }
 
 }

@@ -48,12 +48,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -72,10 +66,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(Uri uri);
-
-        void goSubmit();
 
         void goPin();
 

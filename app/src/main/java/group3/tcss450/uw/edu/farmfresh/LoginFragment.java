@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 /**
@@ -23,6 +25,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getArguments() != null) {
+            String user = getArguments().getString(getString(R.string.email_key));
+            EditText email = (EditText) getActivity().findViewById(R.id.login_email);
+            email.setText(user);
+            Toast.makeText(getActivity(),
+                    "You have successfully registered. ",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,18 +94,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     public interface  OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-
         void goRegister();
 
-        void goPin();
     }
 
 }
