@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
         if (checkRegistrationErrors(name_text, email_text, pass_text, confirm_text)) {
             Integer pincode = generatePin();
-            sendEmail(pincode.toString());
 
             RegistrationDetails details = new RegistrationDetails("", pincode.toString(),
                     name_text, email_text, pass_text, loading);
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         return canProceed;
     }
 
-    private void sendEmail(final String pincode) {
+    private void sendEmail(final String pincode, final String email) {
         Log.d("EMAIL", "SENT EMAIL");
         final GMailSender sender = new GMailSender("farmfresh5000@gmail.com", "TCSS450GROUP3");
         new AsyncTask<String, Void, Void>() {
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                     sender.sendMail("Farm Fresh Registration!",
                             "This is your pincode to register: " + pincode,
                             "FarmFresh.no-reply@gmail.com",
-                            "doseon@live.co.kr");
+                            email);
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
                 }
@@ -259,6 +258,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                         details.email_text.setError("Email already exists.");
                         return;
                     } else {
+                        sendEmail(details.pincode, details.user);
+
                         Bundle args = new Bundle();
                         args.putSerializable(getString(R.string.email_key), details.email_text.getText().toString());
                         args.putSerializable(getString(R.string.password_key), details.pass_text.getText().toString());
