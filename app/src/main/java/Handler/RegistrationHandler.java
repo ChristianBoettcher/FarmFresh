@@ -83,5 +83,4 @@ public class RegistrationHandler {
         }
         return canProceed;
     }
-
 }
