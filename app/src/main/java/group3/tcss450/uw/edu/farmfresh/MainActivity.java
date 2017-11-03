@@ -31,6 +31,8 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import GMailSender.GMailSender;
+import Handler.LoginHandler;
+import Handler.RegistrationHandler;
 
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
@@ -45,18 +47,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
     private static final String CHECK_USER_URL
             = "http://farmfresh.getenjoyment.net/check_user.php?user=";
-
-    private static final String EMAIL_REGEX
-            = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
-            "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
-            "|\"(?:[\\x01-x08\\x0b\\x0c\\x0e-\\x1f" +
-            "\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-" +
-            "\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9]" +
-            "(?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*" +
-            "[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]" +
-            "[0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]" +
-            "?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-x08\\x0b\\x0c\\x0e-\\" +
-            "x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
     private static class RegistrationDetails {
         String response;
@@ -115,6 +105,18 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     }
 
     @Override
+    public void loginManager() {
+        //Handles the login.
+        EditText email_text = (EditText) findViewById(R.id.login_email);
+        EditText pass_text = (EditText) findViewById(R.id.login_pass);
+        LoginHandler logHandle= new LoginHandler(email_text, pass_text);
+        if (logHandle.checkLoginErrors()) {
+            // CHECK DB if username works
+
+        }
+    }
+
+    @Override
     public void goPin() {
         EditText name_text = (EditText) findViewById(R.id.registration_name);
         EditText email_text = (EditText) findViewById(R.id.registration_email);
@@ -122,8 +124,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         EditText confirm_text = (EditText) findViewById(R.id.registration_confirm);
         ProgressBar loading = (ProgressBar) findViewById(R.id.register_loading);
 
-        if (checkRegistrationErrors(name_text, email_text, pass_text, confirm_text)) {
-            Integer pincode = generatePin();
+        RegistrationHandler regHandle = new RegistrationHandler(name_text, email_text, pass_text,
+                confirm_text);
+        if (regHandle.checkRegistrationErrors()) {
+            Integer pincode = regHandle.generatePin();
 
             RegistrationDetails details = new RegistrationDetails("", pincode.toString(),
                     name_text, email_text, pass_text, loading);
@@ -132,50 +136,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
             loading.setVisibility(View.VISIBLE);
         }
-    }
-
-    private boolean checkRegistrationErrors(EditText name_text, EditText email_text,
-                                          EditText pass_text, EditText confirm_text) {
-        boolean canProceed = true;
-
-
-        // Check if username already exists WITH GET.
-        // Check password length username length etc.
-        // Check if it is an actual email with @
-        if (TextUtils.isEmpty(name_text.getText())) {
-            name_text.setError("You must type in a name.");
-            canProceed = false;
-        }
-        if (TextUtils.isEmpty(email_text.getText())) {
-            email_text.setError("You must type in a email.");
-            canProceed = false;
-        }
-        //Email must be valid.
-        if (!Pattern.matches(EMAIL_REGEX, email_text.getText())) {
-            email_text.setError("Email must be valid.");
-            canProceed = false;
-        }
-        if (TextUtils.isEmpty(pass_text.getText())) {
-            pass_text.setError("You must type in a password.");
-            canProceed = false;
-        }
-        //Password must be at least 8 characters long.
-        if (!Pattern.matches("\\S{8,}", pass_text.getText())) {
-            pass_text.setError("Password must be at least 8 characters long.");
-            canProceed = false;
-        }
-        if (TextUtils.isEmpty(confirm_text.getText())) {
-            confirm_text.setError("You must type in a password.");
-            canProceed = false;
-        }
-
-        if (canProceed && !confirm_text.getText().toString().equals(
-                pass_text.getText().toString())) {
-            canProceed = false;
-            pass_text.setError("Your password does not match.");
-            confirm_text.setError("Your password does not match.");
-        }
-        return canProceed;
     }
 
     private void sendEmail(final String pincode, final String email) {
@@ -195,11 +155,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                 return null;
             }
         }.execute();
-    }
-
-    private int generatePin() {
-        Random rand = new Random();
-        return 100000 + (int) (rand.nextFloat() * 900000);
     }
 
 
@@ -235,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
         }
     }
+
+
 
 
     private class GetTask extends AsyncTask<RegistrationDetails, Void, RegistrationDetails> {

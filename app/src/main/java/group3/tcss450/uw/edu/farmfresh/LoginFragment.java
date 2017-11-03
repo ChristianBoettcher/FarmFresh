@@ -60,13 +60,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch (view.getId()) {
                 case R.id.register_button:
-                    Log.d("Pressed register button", "pressed Register button");
                     mListener.goRegister();
                     break;
                 case R.id.login_button:
                     /*
                     User has logged in or typed incorrect email/password.
                      */
+                    mListener.loginManager();
                     break;
                 case R.id.forgot_button:
                     /*
@@ -97,6 +97,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public interface  OnFragmentInteractionListener {
         void goRegister();
+
+        void loginManager();
 
     }
 
