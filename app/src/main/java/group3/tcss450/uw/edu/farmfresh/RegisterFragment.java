@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -23,7 +24,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public RegisterFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
