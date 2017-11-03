@@ -1,6 +1,7 @@
 package Handler;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import Structure.PostParams;
 import Structure.RegistrationDetails;
+import group3.tcss450.uw.edu.farmfresh.Main2Activity;
 import group3.tcss450.uw.edu.farmfresh.MainActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
@@ -35,10 +37,10 @@ import group3.tcss450.uw.edu.farmfresh.R;
 public class LoginPostHandler extends AsyncTask<PostParams, Void, String>{
 
 
-    WeakReference<Activity> weakActivity;
+    MainActivity weakActivity;
     //android.support.v4.app.FragmentTransaction transaction;
     public LoginPostHandler(MainActivity activity) {
-        weakActivity = new WeakReference<Activity>(activity);
+        weakActivity = activity;
         //transaction = ts;
     }
 
@@ -85,7 +87,7 @@ public class LoginPostHandler extends AsyncTask<PostParams, Void, String>{
         //details.load.setVisibility(View.GONE);
         // Something wrong with the network or the URL.
         if (response.startsWith("Unable to")) {
-            Toast.makeText(weakActivity.get().getApplicationContext(), response, Toast.LENGTH_LONG)
+            Toast.makeText(weakActivity.getApplicationContext(), response, Toast.LENGTH_LONG)
                     .show();
             return;
         } else {
@@ -95,12 +97,13 @@ public class LoginPostHandler extends AsyncTask<PostParams, Void, String>{
                 Integer code = mainObject.getInt("code");
                 if (code == 300) {
                     //success
+                    weakActivity.startActivity(new Intent(weakActivity, Main2Activity.class));
                 } else if (code == 200) {
                     //wrong login
                 } else if (code == 201){
                     //wrong pass
                 }
-                Toast.makeText(weakActivity.get().getApplicationContext(),
+                Toast.makeText(weakActivity.getApplicationContext(),
                         message, Toast.LENGTH_LONG).show();
                 return;
             } catch (Exception ex) {
