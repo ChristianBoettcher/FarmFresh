@@ -1,36 +1,14 @@
 package group3.tcss450.uw.edu.farmfresh;
 
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.regex.Pattern;
 
-import GMailSender.GMailSender;
 import Handler.GetAsyncTaskHandler;
 import Handler.LoginHandler;
 import Handler.LoginPostHandler;

@@ -24,8 +24,8 @@
         android:layout_alignStart="@+id/registration_name"
         android:layout_below="@+id/registration_name"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Email" />
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/registration_pass"

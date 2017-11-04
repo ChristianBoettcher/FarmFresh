@@ -9,12 +9,12 @@
         android:id="@+id/login_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Email"
-        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/login_pass"
-        android:layout_alignStart="@+id/login_pass" />
+        android:layout_alignStart="@+id/login_pass"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/login_pass"
