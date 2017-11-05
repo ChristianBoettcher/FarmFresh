@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -34,7 +35,7 @@ import group3.tcss450.uw.edu.farmfresh.R;
  * Created by Doseo on 11/3/2017.
  */
 
-public class LoginPostHandler extends AsyncTask<PostParams, Void, String>{
+public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
 
 
     MainActivity weakActivity;
@@ -105,11 +106,27 @@ public class LoginPostHandler extends AsyncTask<PostParams, Void, String>{
                 }
                 Toast.makeText(weakActivity.getApplicationContext(),
                         message, Toast.LENGTH_LONG).show();
+                weakActivity.getLoginProgressBar().setVisibility(ProgressBar.GONE);
+                weakActivity.setLFREnabled(true);
                 return;
             } catch (Exception ex) {
                 //not JSON RETURNED
             }
         }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        weakActivity.getLoginProgressBar().setVisibility(ProgressBar.VISIBLE);
+        weakActivity.getLoginProgressBar().setProgress(0);
+        weakActivity.setLFREnabled(false);
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        weakActivity.getLoginProgressBar().setProgress(values[0]);
     }
 
 

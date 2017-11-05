@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -20,6 +21,14 @@ import android.widget.Toast;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
+
+    private ProgressBar loginProgressBar;
+
+    private Button login;
+
+    private Button register;
+
+    private Button forgot;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -44,9 +53,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        Button login = (Button) v.findViewById(R.id.login_button);
-        Button register = (Button) v.findViewById(R.id.register_button);
-        Button forgot = (Button) v.findViewById(R.id.forgot_button);
+        login = (Button) v.findViewById(R.id.login_button);
+        register = (Button) v.findViewById(R.id.register_button);
+        forgot = (Button) v.findViewById(R.id.forgot_button);
+        loginProgressBar = (ProgressBar) v.findViewById(R.id.login_progress);
 
         login.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -66,7 +76,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     /*
                     User has logged in or typed incorrect email/password.
                      */
-                    mListener.loginManager();
+                    Button[] LFR = {login, forgot, register};
+                    mListener.loginManager(loginProgressBar, LFR);
                     break;
                 case R.id.forgot_button:
                     /*
@@ -98,7 +109,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public interface  OnFragmentInteractionListener {
         void goRegister();
 
-        void loginManager();
+        void loginManager(ProgressBar theLoginProgressBar, Button[] theLFR);
 
     }
 

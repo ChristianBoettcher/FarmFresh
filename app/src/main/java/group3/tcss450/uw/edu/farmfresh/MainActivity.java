@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     private static final String VERIFY_ACC_URL
             = "http://farmfresh.getenjoyment.net/confirm_info.php";
 
+    private ProgressBar loginProgressBar;
+
+    //Buttons Login, Forgot, Register.
+    private Button[] LFR;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +61,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     }
 
     @Override
-    public void loginManager() {
+    public void loginManager(ProgressBar theLoginProgressBar, Button[] theLFR) {
         //Handles the login.
         EditText email_text = (EditText) findViewById(R.id.login_email);
         EditText pass_text = (EditText) findViewById(R.id.login_pass);
+
         LoginHandler logHandle= new LoginHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
+            loginProgressBar = theLoginProgressBar;
+            LFR = theLFR;
             LoginPostHandler saveInfoTask = new LoginPostHandler(this);
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("user", email_text.getText().toString());
@@ -138,4 +147,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    public ProgressBar getLoginProgressBar() {
+        return loginProgressBar;
+    }
+
+    public Button[] getLFRButtons() {
+        return LFR;
+    }
+
+    public void setLFREnabled(boolean value) {
+        for (Button b : LFR) {
+            b.setEnabled(value);
+        }
+    }
 }
