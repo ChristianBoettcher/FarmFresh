@@ -18,11 +18,13 @@ import java.util.Map;
 
 import Structure.PostParams;
 
+import static Structure.PostParams.getPostDataString;
+
 /**
  * Created by Doseon on 11/3/2017.
  */
 
-public class RegistrationPostTaskHandler extends AsyncTask<PostParams, Void, String> {
+public class PostHandlerNoReturn extends AsyncTask<PostParams, Void, String> {
 
          @Override
         public String doInBackground(PostParams... params) {
@@ -61,21 +63,4 @@ public class RegistrationPostTaskHandler extends AsyncTask<PostParams, Void, Str
             Log.d("POST_RESPONse", response);
             return response;
         }
-
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
-    }
 }

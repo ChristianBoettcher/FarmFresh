@@ -1,11 +1,9 @@
 package Handler;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -17,16 +15,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
 
 import Structure.PostParams;
-import Structure.RegistrationDetails;
 import group3.tcss450.uw.edu.farmfresh.Main2Activity;
 import group3.tcss450.uw.edu.farmfresh.MainActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
@@ -38,11 +31,9 @@ import group3.tcss450.uw.edu.farmfresh.R;
 public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
 
 
-    MainActivity weakActivity;
-    //android.support.v4.app.FragmentTransaction transaction;
+    MainActivity activity;
     public LoginPostHandler(MainActivity activity) {
-        weakActivity = activity;
-        //transaction = ts;
+        this.activity = activity;
     }
 
     @Override
@@ -60,7 +51,7 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
             OutputStream os = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(map));
+            writer.write(PostParams.getPostDataString(map));
 
             writer.flush();
             writer.close();
@@ -85,10 +76,13 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
 
     @Override
     protected void onPostExecute(String response) {
-        //details.load.setVisibility(View.GONE);
+        activity.findViewById(R.id.login_progress).setVisibility(ProgressBar.GONE);
+        activity.findViewById(R.id.login_button).setEnabled(true);
+        activity.findViewById(R.id.register_button).setEnabled(true);
+        activity.findViewById(R.id.forgot_button).setEnabled(true);
         // Something wrong with the network or the URL.
         if (response.startsWith("Unable to")) {
-            Toast.makeText(weakActivity.getApplicationContext(), response, Toast.LENGTH_LONG)
+            Toast.makeText(activity.getApplicationContext(), response, Toast.LENGTH_LONG)
                     .show();
             return;
         } else {
@@ -98,16 +92,15 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
                 Integer code = mainObject.getInt("code");
                 if (code == 300) {
                     //success
-                    weakActivity.startActivity(new Intent(weakActivity, Main2Activity.class));
+                    ((EditText)activity.findViewById(R.id.login_pass)).setText("");
+                    activity.startActivity(new Intent(activity, Main2Activity.class));
                 } else if (code == 200) {
                     //wrong login
                 } else if (code == 201){
                     //wrong pass
                 }
-                Toast.makeText(weakActivity.getApplicationContext(),
+                Toast.makeText(activity.getApplicationContext(),
                         message, Toast.LENGTH_LONG).show();
-                weakActivity.getLoginProgressBar().setVisibility(ProgressBar.GONE);
-                weakActivity.setLFREnabled(true);
                 return;
             } catch (Exception ex) {
                 //not JSON RETURNED
@@ -118,33 +111,10 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        weakActivity.getLoginProgressBar().setVisibility(ProgressBar.VISIBLE);
-        weakActivity.getLoginProgressBar().setProgress(0);
-        weakActivity.setLFREnabled(false);
+        activity.findViewById(R.id.login_progress).setVisibility(ProgressBar.VISIBLE);
+        activity.findViewById(R.id.login_button).setEnabled(false);
+        activity.findViewById(R.id.register_button).setEnabled(false);
+        activity.findViewById(R.id.forgot_button).setEnabled(false);
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        weakActivity.getLoginProgressBar().setProgress(values[0]);
-    }
-
-
-
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
-    }
 }

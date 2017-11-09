@@ -122,7 +122,7 @@ public class Main2Activity extends AppCompatActivity
                 R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
         list.setAdapter(adapter);
-        GetAPIHandler apiTask = new GetAPIHandler(adapter, itemList);
+        GetAPIHandler apiTask = new GetAPIHandler(this, adapter, itemList);
         apiTask.execute(zipcode.getText().toString());
 
 

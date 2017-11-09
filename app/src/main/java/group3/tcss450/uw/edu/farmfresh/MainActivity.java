@@ -10,31 +10,20 @@ import android.widget.ProgressBar;
 
 import java.util.HashMap;
 
-import Handler.GetAsyncTaskHandler;
-import Handler.LoginHandler;
+import Handler.LoginRequirementsHandler;
 import Handler.LoginPostHandler;
-import Handler.RegistrationHandler;
-import Handler.RegistrationPostTaskHandler;
+import Handler.RegistrationRequirementsHandler;
+import Handler.PostHandlerNoReturn;
+import Handler.SendEmailPostHandler;
 import Structure.PostParams;
-import Structure.RegistrationDetails;
+
+import static Structure.Links.SEND_EMAIL_URL;
+import static Structure.Links.STORE_ACC_URL;
+import static Structure.Links.VERIFY_ACC_URL;
 
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
     RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener {
-
-    /*private static final String STORE_PIN_URL
-            = "http://farmfresh.getenjoyment.net/add_pin.php";
-    */
-
-    private static final String STORE_ACC_URL
-            = "http://farmfresh.getenjoyment.net/register.php";
-    private static final String VERIFY_ACC_URL
-            = "http://farmfresh.getenjoyment.net/confirm_info.php";
-
-    private ProgressBar loginProgressBar;
-
-    //Buttons Login, Forgot, Register.
-    private Button[] LFR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +50,13 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     }
 
     @Override
-    public void loginManager(ProgressBar theLoginProgressBar, Button[] theLFR) {
+    public void loginManager() {
         //Handles the login.
         EditText email_text = (EditText) findViewById(R.id.login_email);
         EditText pass_text = (EditText) findViewById(R.id.login_pass);
 
-        LoginHandler logHandle= new LoginHandler(email_text, pass_text);
+        LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
-            loginProgressBar = theLoginProgressBar;
-            LFR = theLFR;
             LoginPostHandler saveInfoTask = new LoginPostHandler(this);
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("user", email_text.getText().toString());
@@ -86,36 +73,24 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         EditText email_text = (EditText) findViewById(R.id.registration_email);
         EditText pass_text = (EditText) findViewById(R.id.registration_pass);
         EditText confirm_text = (EditText) findViewById(R.id.registration_confirm);
-        ProgressBar loading = (ProgressBar) findViewById(R.id.register_loading);
 
-        RegistrationHandler regHandle = new RegistrationHandler(name_text, email_text, pass_text,
+        RegistrationRequirementsHandler regHandle = new RegistrationRequirementsHandler(name_text, email_text, pass_text,
                 confirm_text);
         if (regHandle.checkRegistrationErrors()) {
-            Integer pincode = regHandle.generatePin();
 
-            RegistrationDetails details = new RegistrationDetails("", pincode.toString(),
-                    name_text, email_text, pass_text, loading);
-
-            Bundle args = new Bundle();
-            args.putSerializable(getString(R.string.email_key), details.email_text.getText().toString());
-            args.putSerializable(getString(R.string.password_key), details.pass_text.getText().toString());
-            args.putSerializable(getString(R.string.pincode_key), details.pincode.toString());
-
-            PinFragment pf = new PinFragment();
-            pf.setArguments(args);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
-                    .beginTransaction().replace(R.id.fragmentContainer, pf)
-                    .addToBackStack(null);
-
-            GetAsyncTaskHandler checkUsername = new GetAsyncTaskHandler(this, transaction);
-            checkUsername.execute(details);
-
-            loading.setVisibility(View.VISIBLE);
+            //SEND EMAIL ASYNC POST
+            SendEmailPostHandler sendEmail = new SendEmailPostHandler(this,
+                    name_text.getText().toString());
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("name", name_text.getText().toString());
+            params.put("email", email_text.getText().toString());
+            PostParams pm = new PostParams(SEND_EMAIL_URL, params);
+            sendEmail.execute(pm);
         }
     }
 
     @Override
-    public void submitPin(String email, String pass, String pin) {
+    public void submitPin(String email, String pass, String name, String pin) {
         EditText pin_text = (EditText) findViewById(R.id.pin_edit_text);
         String curr_pin = pin_text.getText().toString();
 
@@ -126,10 +101,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         } else {
             Log.d("SUCCESS", "succesful pin entered");
 
-            RegistrationPostTaskHandler saveInfoTask = new RegistrationPostTaskHandler();
+            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("user", email);
             params.put("pass", pass);
+            params.put("name", name);
             PostParams pm = new PostParams(STORE_ACC_URL, params);
             saveInfoTask.execute(pm);
 
@@ -144,20 +120,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                     .addToBackStack(null);
             transaction.commit();
 
-        }
-    }
-
-    public ProgressBar getLoginProgressBar() {
-        return loginProgressBar;
-    }
-
-    public Button[] getLFRButtons() {
-        return LFR;
-    }
-
-    public void setLFREnabled(boolean value) {
-        for (Button b : LFR) {
-            b.setEnabled(value);
         }
     }
 }

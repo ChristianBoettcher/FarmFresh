@@ -2,9 +2,11 @@ package Handler;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,21 +18,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import Structure.Links;
 import group3.tcss450.uw.edu.farmfresh.Main2Activity;
+import group3.tcss450.uw.edu.farmfresh.R;
+
+import static Structure.Links.API_LINK;
 
 /**
  * Created by Doseon on 11/3/2017.
  */
 
 public class GetAPIHandler extends AsyncTask<String, Void, String> {
-    private static final String API_LINK
-            = "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=";
-
+    Main2Activity activity;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> itemList;
 
 
-    public GetAPIHandler(ArrayAdapter<String> adapter, ArrayList<String> itemList) {
+    public GetAPIHandler(Main2Activity activity,
+                         ArrayAdapter<String> adapter, ArrayList<String> itemList) {
+        this.activity = activity;
         this.itemList = itemList;
         this.adapter = adapter;
     }
@@ -62,11 +68,12 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
+        activity.findViewById(R.id.search_loading).setVisibility(View.GONE);
+        activity.findViewById(R.id.search_button).setEnabled(true);
         // Something wrong with the network or the URL.
         if (response.startsWith("Unable to")) {
-            Log.d("MARKET_NAME", "ERROR");
-            //Toast.makeText(weakActivity.get().getApplicationContext(), details.response, Toast.LENGTH_LONG)
-            //        .show();
+            Toast.makeText(activity.getApplicationContext(), response, Toast.LENGTH_LONG)
+                   .show();
             return;
         } else {
             try {
@@ -83,30 +90,16 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
                     itemList.add(market_name);
                 }
                 adapter.notifyDataSetChanged();
-                /*JSONObject mainObject = new JSONObject(response);
-                Integer code = mainObject.getInt("code");
-                if (code == 200) {
-                    Toast.makeText(weakActivity.get().getApplicationContext(),
-                            "Username already exists.", Toast.LENGTH_LONG).show();
-                    details.email_text.setError("Email already exists.");
-                    return;
-                } else {
-                    sendEmail(details.pincode, details.user);
-
-                    Bundle args = new Bundle();
-                    args.putSerializable(weakActivity.get().getString(R.string.email_key),
-                            details.email_text.getText().toString());
-                    args.putSerializable(weakActivity.get().getString(R.string.password_key),
-                            details.pass_text.getText().toString());
-                    args.putSerializable(weakActivity.get().getString(R.string.pincode_key),
-                            details.pincode.toString());
-
-                    transaction.commit();
-
-                }*/
             } catch (Exception ex) {
                 //not JSON RETURNED
             }
         }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        activity.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.search_button).setEnabled(false);
     }
 }

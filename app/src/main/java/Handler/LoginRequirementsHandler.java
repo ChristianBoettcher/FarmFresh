@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * Created by Doseo on 11/3/2017.
  */
 
-public class LoginHandler {
+public class LoginRequirementsHandler {
 
     private static final String EMAIL_REGEX
             = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
@@ -27,7 +27,7 @@ public class LoginHandler {
     private EditText email_text;
     private EditText pass_text;
 
-    public LoginHandler(EditText email_text, EditText pass_text) {
+    public LoginRequirementsHandler(EditText email_text, EditText pass_text) {
         this.email_text = email_text;
         this.pass_text = pass_text;
     }

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * Created by Doseo on 11/3/2017.
  */
 
-public class RegistrationHandler {
+public class RegistrationRequirementsHandler {
 
     private static final String EMAIL_REGEX
             = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
@@ -29,17 +29,12 @@ public class RegistrationHandler {
     private EditText pass_text;
     private EditText confirm_text;
 
-    public RegistrationHandler(EditText name_text, EditText email_text, EditText pass_text,
-                                 EditText confirm_text) {
+    public RegistrationRequirementsHandler(EditText name_text, EditText email_text, EditText pass_text,
+                                           EditText confirm_text) {
         this.name_text = name_text;
         this.email_text = email_text;
         this.pass_text = pass_text;
         this.confirm_text = confirm_text;
-    }
-
-    public int generatePin() {
-        Random rand = new Random();
-        return 100000 + (int) (rand.nextFloat() * 900000);
     }
 
     public boolean checkRegistrationErrors() {

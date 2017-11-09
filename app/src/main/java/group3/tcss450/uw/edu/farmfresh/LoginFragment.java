@@ -22,14 +22,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    private ProgressBar loginProgressBar;
-
-    private Button login;
-
-    private Button register;
-
-    private Button forgot;
-
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -53,14 +45,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        login = (Button) v.findViewById(R.id.login_button);
-        register = (Button) v.findViewById(R.id.register_button);
-        forgot = (Button) v.findViewById(R.id.forgot_button);
-        loginProgressBar = (ProgressBar) v.findViewById(R.id.login_progress);
-
-        login.setOnClickListener(this);
-        register.setOnClickListener(this);
-        forgot.setOnClickListener(this);
+        Button b = (Button) v.findViewById(R.id.login_button);
+        b.setOnClickListener(this);
+        b = (Button) v.findViewById(R.id.register_button);
+        b.setOnClickListener(this);
+        b = (Button) v.findViewById(R.id.forgot_button);
+        b.setOnClickListener(this);
 
         return v;
     }
@@ -76,8 +66,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     /*
                     User has logged in or typed incorrect email/password.
                      */
-                    Button[] LFR = {login, forgot, register};
-                    mListener.loginManager(loginProgressBar, LFR);
+                    mListener.loginManager();
                     break;
                 case R.id.forgot_button:
                     /*
@@ -109,7 +98,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public interface  OnFragmentInteractionListener {
         void goRegister();
 
-        void loginManager(ProgressBar theLoginProgressBar, Button[] theLFR);
+        void loginManager();
 
     }
 
