@@ -52,7 +52,7 @@ public class RegistrationRequirementsHandler {
             canProceed = false;
         }
         //Email must be valid.
-        if (!Pattern.matches(EMAIL_REGEX, email_text.getText())) {
+        if (!Pattern.matches(EMAIL_REGEX, email_text.getText().toString().toLowerCase())) {
             email_text.setError("Email must be valid.");
             canProceed = false;
         }
