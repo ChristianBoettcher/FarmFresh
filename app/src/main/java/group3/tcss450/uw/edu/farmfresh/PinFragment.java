@@ -22,14 +22,12 @@ public class PinFragment extends Fragment implements View.OnClickListener {
     private String user;
     private String pass;
     private String name;
-    private String pin;
 
     public PinFragment() {
         // Required empty public constructor
         user = "";
         pass = "";
         name = "";
-        pin = "";
     }
 
     @Override
@@ -39,7 +37,6 @@ public class PinFragment extends Fragment implements View.OnClickListener {
             user = getArguments().getString(getString(R.string.email_key));
             pass = getArguments().getString(getString(R.string.password_key));
             name = getArguments().getString(getString(R.string.name_key));
-            pin = getArguments().getString(getString(R.string.pincode_key));
         }
     }
 
@@ -60,7 +57,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch(view.getId()) {
                 case R.id.pin_submit_button:
-                    mListener.submitPin(user, pass, name, pin);
+                    mListener.submitPin(user, pass, name);
             }
         }
     }
@@ -84,7 +81,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
 
     public interface OnFragmentInteractionListener {
 
-        void submitPin(String user, String pass, String name, String pin);
+        void submitPin(String user, String pass, String name);
 
     }
 

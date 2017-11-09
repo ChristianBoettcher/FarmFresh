@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import java.util.HashMap;
 
+import Handler.ConfirmPinPostHandler;
 import Handler.LoginRequirementsHandler;
 import Handler.LoginPostHandler;
 import Handler.RegistrationRequirementsHandler;
@@ -78,14 +79,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                 confirm_text);
         if (regHandle.checkRegistrationErrors()) {
 
-            //SEND EMAIL ASYNC POST
-            SendEmailPostHandler sendEmail = new SendEmailPostHandler(this,
-                    name_text.getText().toString());
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("name", name_text.getText().toString());
             params.put("email", email_text.getText().toString());
             PostParams pm = new PostParams(SEND_EMAIL_URL, params);
-            sendEmail.execute(pm);
+
+            //SEND EMAIL ASYNC POST
+            SendEmailPostHandler sendEmail = new SendEmailPostHandler(this,
+                    email_text.getText().toString(), pm);
+            sendEmail.execute();
         }
     }
 
@@ -96,36 +98,23 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
      */
     @Override
-    public void submitPin(String email, String pass, String name, String pin) {
+    public void submitPin(String email, String pass, String name) {
         EditText pin_text = (EditText) findViewById(R.id.pin_edit_text);
-        String curr_pin = pin_text.getText().toString();
 
         if (pin_text.getText().toString().length() < 6) {
             pin_text.setError("You must type in a 6 pin code.");
-        } else if (!pin.equalsIgnoreCase(curr_pin)) {
-            pin_text.setError("Incorrect Pin, please check again.");
         } else {
-            Log.d("SUCCESS", "succesful pin entered");
+            //CHECK IF PIN IS CORRECT THROUGH ASYNC.
 
-            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("user", email);
-            params.put("pass", pass);
-            params.put("name", name);
+            params.put("pin", pin_text.getText().toString());
             PostParams pm = new PostParams(STORE_ACC_URL, params);
-            saveInfoTask.execute(pm);
 
-            //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
-
-            Bundle args = new Bundle();
-            args.putSerializable(getString(R.string.email_key), email);
-            LoginFragment lf = new LoginFragment();
-            lf.setArguments(args);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
-                    .beginTransaction().replace(R.id.fragmentContainer, lf)
-                    .addToBackStack(null);
-            transaction.commit();
-
+            ConfirmPinPostHandler confirmPin = new ConfirmPinPostHandler(this, pm, email, pass,
+                    name);
+            confirmPin.execute();
+            
         }
     }
 }
