@@ -89,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+
+    /*
+        HANDLE THIS TO PHP BACKEND, STORE INTO
+        DATABASE REGISTRATION : username, pin.
+
+     */
     @Override
     public void submitPin(String email, String pass, String name, String pin) {
         EditText pin_text = (EditText) findViewById(R.id.pin_edit_text);
