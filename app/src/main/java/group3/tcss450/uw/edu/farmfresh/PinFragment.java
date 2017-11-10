@@ -13,25 +13,47 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * PinFragment that holds Pin Fragment page
+ * where user types his 6-digit pin code in order
+ * to register.
  */
 public class PinFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * User email.
+     */
     private String user;
+
+    /**
+     * User password.
+     */
     private String pass;
+
+    /**
+     * User name.
+     */
     private String name;
+
+    /**
+     * User pin code.
+     */
     private String pin;
 
+    /**
+     * Initializes pinFragment fields with default values.
+     */
     public PinFragment() {
-        // Required empty public constructor
         user = "";
         pass = "";
         name = "";
         pin = "";
     }
 
+    /**
+     * Sets pinFragment fields with passed values.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -43,6 +65,13 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Creates view of pinFragment and initializes submit pin button.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +84,10 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    /**
+     * Manages submit pin button of PinFragment.
+     * @param view pinFragment View.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -64,6 +97,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -82,6 +116,9 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    /**
+     * Calls corresponding method from MainActivity.
+     */
     public interface OnFragmentInteractionListener {
 
         void submitPin(String user, String pass, String name, String pin);

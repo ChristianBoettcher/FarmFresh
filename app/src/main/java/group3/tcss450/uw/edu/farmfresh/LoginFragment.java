@@ -2,21 +2,19 @@ package group3.tcss450.uw.edu.farmfresh;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Login Fragment that holds Login Fragment page.
+ * Initial page of the app.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -26,6 +24,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    /**
+     * Initializes LoginFragment:
+     * email editText;
+     * password editText;
+     * Login, Register, Forgot password buttons.
+     * If user have just registered then email
+     * text field will already have user's email.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -39,6 +45,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Initializes view and buttons of loginFragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +68,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    /**
+     * Manages clicks on 3 buttons:
+     * Login, Register, Forgot Password.
+     *
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -77,6 +95,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -94,7 +113,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-
+    /**
+     * Calls corresponding methods from MainActivity.
+     */
     public interface  OnFragmentInteractionListener {
         void goRegister();
 

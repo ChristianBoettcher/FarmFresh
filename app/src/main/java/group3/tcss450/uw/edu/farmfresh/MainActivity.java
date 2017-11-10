@@ -21,10 +21,15 @@ import static Structure.Links.SEND_EMAIL_URL;
 import static Structure.Links.STORE_ACC_URL;
 import static Structure.Links.VERIFY_ACC_URL;
 
-
+/**
+ * Main Activity for Login, Registration and Forgot password fragments.
+ */
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
     RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener {
 
+    /**
+     *Initializes MainActivity with LoginFragment.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    /**
+     * Redirects to Registration page.
+     */
     @Override
     public void goRegister() {
         RegisterFragment rf = new RegisterFragment();
@@ -49,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
     }
 
+    /**
+     * Checks user credentials and logs in.
+     * If user is registered and logs in with valid account
+     * then user will be redirected to main page of the app.
+     */
     @Override
     public void loginManager() {
         //Handles the login.
@@ -67,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    /**
+     * Checks user entered information during registration for validity.
+     * If valid -> Redirects to pinFragment.
+     */
     @Override
     public void goPin() {
         EditText name_text = (EditText) findViewById(R.id.registration_name);
@@ -94,6 +111,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         HANDLE THIS TO PHP BACKEND, STORE INTO
         DATABASE REGISTRATION : username, pin.
 
+     */
+
+    /**
+     * Submit pin button handler.
+     * Checks pin for validity and if valid then
+     * redirects to LoginFragment.
+     * @param email user email.
+     * @param pass user password.
+     * @param name user name.
+     * @param pin user pin code.
      */
     @Override
     public void submitPin(String email, String pass, String name, String pin) {

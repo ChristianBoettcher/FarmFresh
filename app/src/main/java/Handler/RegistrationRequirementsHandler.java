@@ -8,10 +8,22 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Doseo on 11/3/2017.
+ * Edited by Alisher.
  */
 
+/**
+ * Class for handling Registration requirements.
+ * Checks User entered registration credentials for validity.
+ * Requirements are:
+ * valid email;
+ * password at least 8 characters in length (non-whitespace);
+ * confirm password and password must match.
+ */
 public class RegistrationRequirementsHandler {
 
+    /**
+     * Email regex.
+     */
     private static final String EMAIL_REGEX
             = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
             "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
@@ -24,11 +36,33 @@ public class RegistrationRequirementsHandler {
             "?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-x08\\x0b\\x0c\\x0e-\\" +
             "x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
+    /**
+     * user name EditText.
+     */
     private EditText name_text;
+
+    /**
+     * user email EditText.
+     */
     private EditText email_text;
+
+    /**
+     * user password EditText.
+     */
     private EditText pass_text;
+
+    /**
+     * user confirm password EditText.
+     */
     private EditText confirm_text;
 
+    /**
+     * Creates RegistrationRequirementsHandler Object.
+     * @param name_text user name.
+     * @param email_text user email.
+     * @param pass_text user password.
+     * @param confirm_text user confirm password.
+     */
     public RegistrationRequirementsHandler(EditText name_text, EditText email_text, EditText pass_text,
                                            EditText confirm_text) {
         this.name_text = name_text;
@@ -37,6 +71,15 @@ public class RegistrationRequirementsHandler {
         this.confirm_text = confirm_text;
     }
 
+    /**
+     * Checks Registration Credentials of user.
+     * Requirements are:
+     * valid email;
+     * password at least 8 characters in length (non-whitespace);
+     * confirm password and password must match.
+     * @return true if entered credentials are valid,
+     * false otherwise.
+     */
     public boolean checkRegistrationErrors() {
         boolean canProceed = true;
 

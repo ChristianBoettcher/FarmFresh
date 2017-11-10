@@ -12,7 +12,8 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Register fragment that gold RegisterFragment page
+ * where user enters their credentials and registers.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
@@ -22,6 +23,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    /**
+     * Creates and returns View of RegisterFragment and initializes
+     * submit button.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return RegisterFragment View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +42,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    /**
+     * Manages submit button of RegistrationFragment.
+     * @param view View of RegistrationFragment.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -62,6 +75,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    /**
+     * Calls corresponding method from MainActivity.
+     */
     public interface OnFragmentInteractionListener {
 
         void goPin();
