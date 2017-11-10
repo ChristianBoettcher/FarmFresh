@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import Structure.PostParams;
+import group3.tcss450.uw.edu.farmfresh.ChangePassFragment;
 import group3.tcss450.uw.edu.farmfresh.LoginFragment;
 import group3.tcss450.uw.edu.farmfresh.MainActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
@@ -39,14 +40,16 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
     String email;
     String pass;
     String name;
+    Boolean forgot;
 
     public ConfirmPinPostHandler(MainActivity activity, PostParams params, String email,
-                                 String pass, String name) {
+                                 String pass, String name, boolean forgot) {
         this.activity = activity;
         this.params = params;
         this.email = email;
         this.pass = pass;
         this.name = name;
+        this.forgot = forgot;
     }
 
     @Override
@@ -132,25 +135,38 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
     }
 
     private void correctPinEntered() {
-        PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("user", email);
-        params.put("pass", pass);
-        params.put("name", name);
-        PostParams pm = new PostParams(STORE_ACC_URL, params);
-        saveInfoTask.execute(pm);
+        if (!forgot) {
+            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("user", email);
+            params.put("pass", pass);
+            params.put("name", name);
+            PostParams pm = new PostParams(STORE_ACC_URL, params);
+            saveInfoTask.execute(pm);
 
-        //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
+            //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
-        Bundle args = new Bundle();
-        args.putSerializable(activity.getString(R.string.email_key), email);
-        LoginFragment lf = new LoginFragment();
-        lf.setArguments(args);
-        android.support.v4.app.FragmentTransaction transaction = activity.
-                getSupportFragmentManager()
-                .beginTransaction().replace(R.id.fragmentContainer, lf)
-                .addToBackStack(null);
-        transaction.commit();
+            Bundle args = new Bundle();
+            args.putSerializable(activity.getString(R.string.email_key), email);
+            LoginFragment lf = new LoginFragment();
+            lf.setArguments(args);
+            android.support.v4.app.FragmentTransaction transaction = activity.
+                    getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.fragmentContainer, lf)
+                    .addToBackStack(null);
+            transaction.commit();
+        } else {
+            Bundle args = new Bundle();
+            args.putSerializable(activity.getString(R.string.email_key), email);
+            args.putSerializable("LOGIN_MESSAGE", "You have successfully registered.");
+            ChangePassFragment cpf = new ChangePassFragment();
+            cpf.setArguments(args);
+            android.support.v4.app.FragmentTransaction transaction = activity.
+                    getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.fragmentContainer, cpf)
+                    .addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 }

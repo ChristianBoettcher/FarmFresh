@@ -26,4 +26,6 @@ public class Links {
     public static final String CONFIRM_PIN_URL
             = "http://cssgate.insttech.washington.edu/~doseon/FarmFresh/confirm_pin.php";
 
+    public static final String CHANGE_PASS_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/FarmFresh/change_pass.php";
 }

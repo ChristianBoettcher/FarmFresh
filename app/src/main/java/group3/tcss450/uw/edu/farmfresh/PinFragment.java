@@ -36,10 +36,9 @@ public class PinFragment extends Fragment implements View.OnClickListener {
      */
     private String name;
 
-    /**
-     * User pin code.
-     */
-    private String pin;
+    //Registration Pin or Forgot Password Pin.
+    private Boolean forgot;
+
 
     /**
      * Initializes pinFragment fields with default values.
@@ -48,7 +47,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         user = "";
         pass = "";
         name = "";
-        pin = "";
+        forgot = false;
     }
 
     /**
@@ -61,7 +60,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
             user = getArguments().getString(getString(R.string.email_key));
             pass = getArguments().getString(getString(R.string.password_key));
             name = getArguments().getString(getString(R.string.name_key));
-            pin = getArguments().getString(getString(R.string.pincode_key));
+            forgot = getArguments().getBoolean("CHANGE_PASS_BOOLEAN");
         }
     }
 
@@ -93,7 +92,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch(view.getId()) {
                 case R.id.pin_submit_button:
-                    mListener.submitPin(user, pass, name, pin);
+                    mListener.submitPin(user, pass, name, forgot);
             }
         }
     }
@@ -121,7 +120,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
      */
     public interface OnFragmentInteractionListener {
 
-        void submitPin(String user, String pass, String name, String pin);
+        void submitPin(String user, String pass, String name, Boolean forgot);
 
     }
 

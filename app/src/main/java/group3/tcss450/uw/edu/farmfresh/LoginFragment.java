@@ -37,10 +37,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         super.onStart();
         if (getArguments() != null) {
             String user = getArguments().getString(getString(R.string.email_key));
+            String message = getArguments().getString("LOGIN_MESSAGE");
             EditText email = (EditText) getActivity().findViewById(R.id.login_email);
             email.setText(user);
             Toast.makeText(getActivity(),
-                    "You have successfully registered. ",
+                    message,
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -90,6 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     /*
                     Go to password reset page.
                      */
+                    mListener.goForgotPassword();
                     break;
             }
         }
@@ -120,6 +122,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         void goRegister();
 
         void loginManager();
+
+        void goForgotPassword();
 
     }
 

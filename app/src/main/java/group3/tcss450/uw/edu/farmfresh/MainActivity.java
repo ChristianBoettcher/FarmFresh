@@ -2,22 +2,22 @@ package group3.tcss450.uw.edu.farmfresh;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.text.TextUtils;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import Handler.ConfirmPinPostHandler;
+import Handler.ForgotPassHandler;
 import Handler.LoginRequirementsHandler;
 import Handler.LoginPostHandler;
-import Handler.RegistrationRequirementsHandler;
 import Handler.PostHandlerNoReturn;
+import Handler.RegistrationRequirementsHandler;
 import Handler.SendEmailPostHandler;
 import Structure.PostParams;
 
+import static Structure.Links.CHANGE_PASS_URL;
 import static Structure.Links.SEND_EMAIL_URL;
 import static Structure.Links.STORE_ACC_URL;
 import static Structure.Links.VERIFY_ACC_URL;
@@ -26,7 +26,8 @@ import static Structure.Links.VERIFY_ACC_URL;
  * Main Activity for Login, Registration and Forgot password fragments.
  */
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
-    RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener {
+    RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener,
+    ChangePassFragment.OnFragmentInteractionListener {
 
     /**
      *Initializes MainActivity with LoginFragment.
@@ -81,6 +82,25 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    @Override
+    public void goForgotPassword() {
+        EditText login_email = (EditText) findViewById(R.id.login_email);
+        if (TextUtils.isEmpty(login_email.getText())) {
+            login_email.setError("You must type in a email.");
+            return;
+        } else {
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("name", login_email.getText().toString());
+            params.put("email", login_email.getText().toString());
+            PostParams pm = new PostParams(SEND_EMAIL_URL, params);
+
+            ForgotPassHandler changePass = new ForgotPassHandler(this, login_email.getText()
+                    .toString(), pm);
+            changePass.execute();
+        }
+
+    }
+
     /**
      * Checks user entered information during registration for validity.
      * If valid -> Redirects to pinFragment.
@@ -92,8 +112,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         EditText pass_text = (EditText) findViewById(R.id.registration_pass);
         EditText confirm_text = (EditText) findViewById(R.id.registration_confirm);
 
-        RegistrationRequirementsHandler regHandle = new RegistrationRequirementsHandler(name_text, email_text, pass_text,
-                confirm_text);
+        RegistrationRequirementsHandler regHandle = new
+                RegistrationRequirementsHandler(name_text, email_text, pass_text, confirm_text);
         if (regHandle.checkRegistrationErrors()) {
 
             HashMap<String, String> params = new HashMap<String, String>();
@@ -122,26 +142,73 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
      * @param email user email.
      * @param pass user password.
      * @param name user name.
-     * @param pin user pin code.
      */
     @Override
-    public void submitPin(String email, String pass, String name) {
+    public void submitPin(String email, String pass, String name, Boolean forgot) {
         EditText pin_text = (EditText) findViewById(R.id.pin_edit_text);
 
         if (pin_text.getText().toString().length() < 6) {
             pin_text.setError("You must type in a 6 pin code.");
         } else {
             //CHECK IF PIN IS CORRECT THROUGH ASYNC.
-
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("user", email);
             params.put("pin", pin_text.getText().toString());
             PostParams pm = new PostParams(STORE_ACC_URL, params);
 
             ConfirmPinPostHandler confirmPin = new ConfirmPinPostHandler(this, pm, email, pass,
-                    name);
+                    name, forgot);
             confirmPin.execute();
             
         }
+    }
+
+    @Override
+    public void onChangePass(String email) {
+        EditText new_pass = (EditText) findViewById(R.id.change_pass);
+        EditText new_pass_confirm = (EditText) findViewById(R.id.change_pass_confirm);
+        boolean canProceed = true;
+        if (TextUtils.isEmpty(new_pass.getText())) {
+            new_pass.setError("You must type in a password.");
+            canProceed = false;
+        }
+        //Password must be at least 8 characters long.
+        if (!Pattern.matches("\\S{8,}", new_pass.getText())) {
+            new_pass.setError("Password must be at least 8 characters long.");
+            canProceed = false;
+        }
+        if (TextUtils.isEmpty(new_pass_confirm.getText())) {
+            new_pass_confirm.setError("You must type in a password.");
+            canProceed = false;
+        }
+
+        if (canProceed && !new_pass_confirm.getText().toString().equals(
+                new_pass.getText().toString())) {
+            canProceed = false;
+            new_pass.setError("Your password does not match.");
+            new_pass_confirm.setError("Your password does not match.");
+        }
+
+        if (canProceed) {
+            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("user", email);
+            params.put("pass", new_pass.getText().toString());
+            PostParams pm = new PostParams(CHANGE_PASS_URL, params);
+            saveInfoTask.execute(pm);
+
+            //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
+
+            Bundle args = new Bundle();
+            args.putSerializable(getString(R.string.email_key), email);
+            args.putSerializable("LOGIN_MESSAGE", "You have successfully changed your password.");
+            LoginFragment lf = new LoginFragment();
+            lf.setArguments(args);
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.fragmentContainer, lf)
+                    .addToBackStack(null);
+            transaction.commit();
+        }
+
     }
 }
