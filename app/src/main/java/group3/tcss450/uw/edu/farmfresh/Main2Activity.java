@@ -22,10 +22,17 @@ import java.util.ArrayList;
 
 import Handler.GetAPIHandler;
 
+/**
+ * Activity for search by zip codes (main page of app).
+ * Activity called after user successfully logs in.
+ */
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchFragment.OnFragmentInteractionListener{
 
+    /**
+     *Initializes this activity with SearchFragment.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,11 @@ public class Main2Activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Back Button handler.
+     * Closes drawer if it was open,
+     * otherwise acts like normal back button.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -66,6 +78,11 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Initializes Action bar if options.
+     * @param menu Selected menu.
+     * @return true.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -73,6 +90,11 @@ public class Main2Activity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Handles clicks on one of the options of Action Bar.
+     * @param item Selected item.
+     * @return true.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -88,6 +110,12 @@ public class Main2Activity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handles selection of one of the buttons
+     * in drawer menu.
+     * @param item Selected MenuItem.
+     * @return true.
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -113,6 +141,9 @@ public class Main2Activity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Searches for markets near user typed zip code.
+     */
     @Override
     public void searchZip() {
         ListView list = (ListView) findViewById(R.id.search_list);

@@ -97,7 +97,6 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

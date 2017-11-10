@@ -30,18 +30,49 @@ import static Structure.Links.STORE_ACC_URL;
 import static Structure.PostParams.getPostDataString;
 
 /**
+ * Thread that runs in background when user submits 6-digit pin.
  * Created by Doseon on 11/9/2017.
  */
 
 public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
 
+    /**
+     * Activity passed to this class.
+     */
     MainActivity activity;
+
+    /**
+     * Parameters passed:
+     * user email, pin;
+     * corresponding URL.
+     */
     PostParams params;
+
+    /**
+     * User email.
+     */
     String email;
+
+    /**
+     * User password.
+     */
     String pass;
+
+    /**
+     * User name.
+     */
     String name;
     Boolean forgot;
 
+    /**
+     * Construct ConfirmPostHandler object.
+     * Initializes:
+     * @param activity MainActivity
+     * @param params parameters.
+     * @param email user email.
+     * @param pass user password.
+     * @param name user name.
+     */
     public ConfirmPinPostHandler(MainActivity activity, PostParams params, String email,
                                  String pass, String name, boolean forgot) {
         this.activity = activity;
@@ -52,6 +83,12 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
         this.forgot = forgot;
     }
 
+    /**
+     * Runs in background.
+     * Sends POST request to backend.
+     * @param voids no params.
+     * @return string response to onPostExecute.
+     */
     @Override
     public String doInBackground(Void... voids) {
         String response = "";
@@ -89,6 +126,15 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
         return response;
     }
 
+    /**
+     * Decides what to do next depending on response.
+     * Depending on response can:
+     * Successfully register user;
+     * Prompt with incorrect pin;
+     * Prompt with problem in backend;
+     * Prompt with no pin for given email.
+     * @param response determines what to do next.
+     */
     @Override
     protected void onPostExecute(String response) {
         // Something wrong with the network or the URL.
@@ -127,6 +173,10 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
         }
     }
 
+    /**
+     * Pre thread initializations of SearchFragment.
+     * Sets button disabled.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -134,6 +184,11 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
         activity.findViewById(R.id.pin_submit_button).setEnabled(false);
     }
 
+    /**
+     * Called when pin entered is correct.
+     * User successfully registered and now is redirected
+     * to login page. Saves user credentials.
+     */
     private void correctPinEntered() {
         if (!forgot) {
             PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();

@@ -25,17 +25,32 @@ import group3.tcss450.uw.edu.farmfresh.MainActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
 /**
+ * Thread that logs in user to main page of the app.
  * Created by Doseo on 11/3/2017.
  */
 
 public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
 
-
+    /**
+     * MainActivity
+     */
     MainActivity activity;
+
+    /**
+     * Constructs LoginPostHandler Object.
+     * Initializes:
+     * @param activity MainActivity.
+     */
     public LoginPostHandler(MainActivity activity) {
         this.activity = activity;
     }
 
+    /**
+     * Runs in background.
+     * Sends request to successfully log in user to the app.
+     * @param params Parameters: URL, email, password.
+     * @return response JSON String.
+     */
     @Override
     public String doInBackground(PostParams... params) {
         String response = "";
@@ -74,6 +89,12 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
         return response;
     }
 
+    /**
+     * Depending on response will:
+     * Log in user;
+     * Prompt with an error;
+     * @param response JSON string.
+     */
     @Override
     protected void onPostExecute(String response) {
         activity.findViewById(R.id.login_progress).setVisibility(ProgressBar.GONE);
@@ -108,6 +129,10 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
         }
     }
 
+    /**
+     * Prepares thread to run.
+     * Sets buttons to disabled.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

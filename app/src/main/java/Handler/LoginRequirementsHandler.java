@@ -7,11 +7,15 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
+ * Checks User's login credentials for validity.
  * Created by Doseo on 11/3/2017.
  */
 
 public class LoginRequirementsHandler {
 
+    /**
+     * Email Regex.
+     */
     private static final String EMAIL_REGEX
             = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
             "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
@@ -24,14 +28,34 @@ public class LoginRequirementsHandler {
             "?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-x08\\x0b\\x0c\\x0e-\\" +
             "x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
+    /**
+     * User email.
+     */
     private EditText email_text;
+
+    /**
+     * User password.
+     */
     private EditText pass_text;
 
+    /**
+     * Constructs LoginRequirementsHandler object.
+     * Initializes:
+     * @param email_text user email.
+     * @param pass_text user password.
+     */
     public LoginRequirementsHandler(EditText email_text, EditText pass_text) {
         this.email_text = email_text;
         this.pass_text = pass_text;
     }
 
+    /**
+     * Checks login credentials for errors:
+     * Email must be valid;
+     * password must be valid.
+     * @return true if credentials are valid,
+     * false otherwise.
+     */
     public boolean checkLoginErrors() {
         boolean canProceed = true;
 

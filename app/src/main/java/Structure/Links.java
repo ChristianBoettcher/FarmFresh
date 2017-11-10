@@ -1,6 +1,7 @@
 package Structure;
 
 /**
+ * Class with links to php requests.
  * Created by Doseon on 11/8/2017.
  */
 
