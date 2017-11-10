@@ -22,4 +22,8 @@ public class Links {
 
     public static final String SEND_EMAIL_URL
             = "http://cssgate.insttech.washington.edu/~doseon/FarmFresh/send_email.php";
+
+    public static final String CONFIRM_PIN_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/FarmFresh/confirm_pin.php";
+
 }
