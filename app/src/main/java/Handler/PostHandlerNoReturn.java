@@ -21,12 +21,18 @@ import Structure.PostParams;
 import static Structure.PostParams.getPostDataString;
 
 /**
+ * Dynamic POST request handler.
  * Created by Doseon on 11/3/2017.
  */
 
 public class PostHandlerNoReturn extends AsyncTask<PostParams, Void, String> {
 
-         @Override
+    /**
+     * Performs POST request.
+     * @param params URL, user info.
+     * @return JSON String.
+     */
+    @Override
         public String doInBackground(PostParams... params) {
             String response = "";
             HttpURLConnection urlConnection = null;

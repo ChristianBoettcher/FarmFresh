@@ -11,7 +11,10 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * SearchFragment that hold SearchFragment page where
+ * user can type their zip code and start searching for
+ * markets near that zip code.
+ *
  * Activities that contain this fragment must implement the
  * {@link SearchFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
@@ -24,7 +27,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-
+    /**
+     * Creates View of SearchFragment and initializes submit button.
+     * @return View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +59,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    /**
+     * Handles click on search by zip button.
+     * @param v View of SearchFragment.
+     */
     @Override
     public void onClick(View v) {
         if (mListener != null) {
@@ -70,10 +80,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Calls corresponding method from Main2Activity.
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

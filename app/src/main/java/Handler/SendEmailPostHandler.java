@@ -28,22 +28,46 @@ import static Structure.Links.CHECK_USER_URL;
 import static Structure.PostParams.getPostDataString;
 
 /**
+ * Thread that sends pin code to user email.
  * Created by Doseon on 11/8/2017.
  */
 
 
 public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
 
+    /**
+     * MainActivity.
+     */
     MainActivity activity;
+
+    /**
+     * User email.
+     */
     String user_email;
+
+    /**
+     * PostParams Object.
+     */
     PostParams params;
 
+    /**
+     * Construct SendEmailPostHandler object.
+     * Initializes:
+     * @param activity MainActivity.
+     * @param user_email User email.
+     * @param params PostParams object.
+     */
     public SendEmailPostHandler(MainActivity activity, String user_email, PostParams params) {
         this.activity = activity;
         this.user_email = user_email;
         this.params = params;
     }
 
+    /**
+     * Establishes connection and gets JSON string.
+     * @param string void
+     * @return JSON String.
+     */
     @Override
     protected String doInBackground(Void... string) {
         String response = "";
@@ -69,6 +93,12 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
         return response;
     }
 
+    /**
+     * Depending on response:
+     * Prompt that username already exists;
+     * Proceed next.
+     * @param response JSON String.
+     */
     @Override
     protected void onPostExecute(String response) {
         // Something wrong with the network or the URL.
@@ -98,6 +128,10 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
         }
     }
 
+    /**
+     * Prepares thread for execution.
+     * Sets buttons to disabled.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -105,8 +139,17 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
         activity.findViewById(R.id.register_submit).setEnabled(false);
     }
 
+    /**
+     * Class that manages pin code sending.
+     * Called from SendEmailPostHandler.
+     */
     public class moveToPinPageHandler extends AsyncTask<PostParams, Void, String> {
 
+        /**
+         * Gets and sends JSON Object.
+         * @param params PostParams Object.
+         * @return JSON String.
+         */
         @Override
         public String doInBackground(PostParams... params) {
             String response = "";
@@ -145,6 +188,12 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
             return response;
         }
 
+        /**
+         * depending on response will:
+         * successfully register user;
+         * or prompt with error in backend.
+         * @param response JSON String.
+         */
         @Override
         protected void onPostExecute(String response) {
             activity.findViewById(R.id.register_loading).setVisibility(View.GONE);

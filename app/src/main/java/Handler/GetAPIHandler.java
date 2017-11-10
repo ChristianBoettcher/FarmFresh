@@ -25,15 +25,33 @@ import group3.tcss450.uw.edu.farmfresh.R;
 import static Structure.Links.API_LINK;
 
 /**
+ * Thread that searches for market around given zip code.
  * Created by Doseon on 11/3/2017.
  */
 
 public class GetAPIHandler extends AsyncTask<String, Void, String> {
+    /**
+     * Main2Activity.
+     */
     Main2Activity activity;
+
+    /**
+     * ArrayAdapter to populate list of markets.
+     */
     private ArrayAdapter<String> adapter;
+
+    /**
+     * List of markets.
+     */
     private ArrayList<String> itemList;
 
-
+    /**
+     * Constructs GetAPIHandler object.
+     * Initializes:
+     * @param activity Main2Activity
+     * @param adapter Populates the list.
+     * @param itemList List of Markets.
+     */
     public GetAPIHandler(Main2Activity activity,
                          ArrayAdapter<String> adapter, ArrayList<String> itemList) {
         this.activity = activity;
@@ -41,7 +59,13 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
         this.adapter = adapter;
     }
 
-
+    /**
+     * Runs in background.
+     * Sends request to backend to retrieve all markets
+     * around given zip code.
+     * @param details zip code.
+     * @return string response (JSON string) to OnPostExecute.
+     */
     @Override
     protected String doInBackground(String... details) {
         String response = "";
@@ -66,6 +90,11 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
         return response;
     }
 
+    /**
+     * Converts JSON string to object and populates
+     * list of markets from it.
+     * @param response JSON string.
+     */
     @Override
     protected void onPostExecute(String response) {
         activity.findViewById(R.id.search_loading).setVisibility(View.GONE);
@@ -96,6 +125,10 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Prepares thread.
+     * Sets search button to disabled.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

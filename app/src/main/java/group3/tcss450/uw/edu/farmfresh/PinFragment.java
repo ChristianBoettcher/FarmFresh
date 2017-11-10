@@ -37,18 +37,12 @@ public class PinFragment extends Fragment implements View.OnClickListener {
     private String name;
 
     /**
-     * User pin code.
-     */
-    private String pin;
-
-    /**
      * Initializes pinFragment fields with default values.
      */
     public PinFragment() {
         user = "";
         pass = "";
         name = "";
-        pin = "";
     }
 
     /**
@@ -61,7 +55,6 @@ public class PinFragment extends Fragment implements View.OnClickListener {
             user = getArguments().getString(getString(R.string.email_key));
             pass = getArguments().getString(getString(R.string.password_key));
             name = getArguments().getString(getString(R.string.name_key));
-            pin = getArguments().getString(getString(R.string.pincode_key));
         }
     }
 
@@ -93,11 +86,10 @@ public class PinFragment extends Fragment implements View.OnClickListener {
         if (mListener != null) {
             switch(view.getId()) {
                 case R.id.pin_submit_button:
-                    mListener.submitPin(user, pass, name, pin);
+                    mListener.submitPin(user, pass, name);
             }
         }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -121,7 +113,7 @@ public class PinFragment extends Fragment implements View.OnClickListener {
      */
     public interface OnFragmentInteractionListener {
 
-        void submitPin(String user, String pass, String name, String pin);
+        void submitPin(String user, String pass, String name);
 
     }
 
