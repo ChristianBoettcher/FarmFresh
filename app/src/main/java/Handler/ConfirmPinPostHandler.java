@@ -39,30 +39,33 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
     /**
      * Activity passed to this class.
      */
-    MainActivity activity;
+    private MainActivity activity;
 
     /**
      * Parameters passed:
      * user email, pin;
      * corresponding URL.
      */
-    PostParams params;
+    private PostParams params;
 
     /**
      * User email.
      */
-    String email;
+    private String email;
 
     /**
      * User password.
      */
-    String pass;
+    private String pass;
 
     /**
      * User name.
      */
-    String name;
-    Boolean forgot;
+    private String name;
+    /**
+     * Check if register or change pass pin screen.
+     */
+    private Boolean forgot;
 
     /**
      * Construct ConfirmPostHandler object.
@@ -203,6 +206,7 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
 
             Bundle args = new Bundle();
             args.putSerializable(activity.getString(R.string.email_key), email);
+            args.putSerializable("LOGIN_MESSAGE", "You have successfully registered.");
             LoginFragment lf = new LoginFragment();
             lf.setArguments(args);
             android.support.v4.app.FragmentTransaction transaction = activity.
@@ -213,7 +217,6 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
         } else {
             Bundle args = new Bundle();
             args.putSerializable(activity.getString(R.string.email_key), email);
-            args.putSerializable("LOGIN_MESSAGE", "You have successfully registered.");
             ChangePassFragment cpf = new ChangePassFragment();
             cpf.setArguments(args);
             android.support.v4.app.FragmentTransaction transaction = activity.
