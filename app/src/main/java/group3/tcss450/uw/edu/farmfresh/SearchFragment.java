@@ -79,7 +79,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
      * Calls corresponding method from Main2Activity.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void searchZip();
     }
 }
