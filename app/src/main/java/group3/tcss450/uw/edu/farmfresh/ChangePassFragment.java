@@ -1,7 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +10,8 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * ChangePassFragment that hold ChangePassFragment page
+ * where user changes the password.
  * Activities that contain this fragment must implement the
  * {@link ChangePassFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
@@ -20,12 +20,22 @@ public class ChangePassFragment extends Fragment implements View.OnClickListener
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * User email.
+     */
     private String email;
 
+    /**
+     * Constructs ChangePassFragment Object
+     * Initializes email to default value.
+     */
     public ChangePassFragment() {
         email = "EMPTY_EMAIL";
     }
 
+    /**
+     * Sets email to user's email.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -34,11 +44,18 @@ public class ChangePassFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    /**
+     * Creates and returns view of ChangePassFragment
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState savedInstanceState
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = (View) inflater.inflate(R.layout.fragment_change_pass, container, false);
+        View v = inflater.inflate(R.layout.fragment_change_pass, container, false);
 
         Button pinSubmitButton = (Button) v.findViewById(R.id.change_password_button);
         pinSubmitButton.setOnClickListener(this);
@@ -60,6 +77,10 @@ public class ChangePassFragment extends Fragment implements View.OnClickListener
         mListener = null;
     }
 
+    /**
+     * Handles clicking on change password button.
+     * @param v View.
+     */
     @Override
     public void onClick(View v) {
         if (mListener != null) {

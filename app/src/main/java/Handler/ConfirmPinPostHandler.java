@@ -192,7 +192,7 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
     private void correctPinEntered() {
         if (!forgot) {
             PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("user", email);
             params.put("pass", pass);
             params.put("name", name);

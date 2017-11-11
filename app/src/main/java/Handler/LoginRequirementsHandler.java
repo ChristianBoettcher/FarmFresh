@@ -3,7 +3,6 @@ package Handler;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import java.util.Random;
 import java.util.regex.Pattern;
 
 /**

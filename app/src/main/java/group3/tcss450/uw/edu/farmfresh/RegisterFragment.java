@@ -31,6 +31,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
      * @param savedInstanceState
      * @return RegisterFragment View.
      */
+    @SuppressWarnings("JavaDoc")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

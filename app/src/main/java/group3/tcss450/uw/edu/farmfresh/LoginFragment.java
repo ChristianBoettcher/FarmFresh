@@ -53,6 +53,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
      * @param savedInstanceState
      * @return View.
      */
+    @SuppressWarnings("JavaDoc")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -3,9 +3,7 @@ package Handler;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -18,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import Structure.Links;
 import group3.tcss450.uw.edu.farmfresh.Main2Activity;
 import group3.tcss450.uw.edu.farmfresh.R;
 

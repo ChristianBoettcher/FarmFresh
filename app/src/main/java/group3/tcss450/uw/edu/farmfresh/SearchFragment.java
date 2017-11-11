@@ -1,7 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,9 +46,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-          //  throw new RuntimeException(context.toString()
-           //         + " must implement OnFragmentInteractionListener");
         }
     }
 

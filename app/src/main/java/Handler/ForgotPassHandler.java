@@ -3,7 +3,6 @@ package Handler;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,22 +27,47 @@ import static Structure.Links.CHECK_USER_URL;
 import static Structure.PostParams.getPostDataString;
 
 /**
+ * Thread that checks if email is valid
+ * and emails pin code to user's email to reset password.
  * Created by Doseo on 11/10/2017.
  */
 
 public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
 
-        MainActivity activity;
-        String user_email;
-        PostParams params;
+    /**
+     * MainActivity.
+     */
+    MainActivity activity;
 
+    /**
+     * User email.
+     */
+    String user_email;
+
+    /**
+     * PostParams Object.
+     */
+    PostParams params;
+
+    /**
+     * Constructs ForgotPassHandler Object.
+     * @param activity MainActivity
+     * @param user_email User email.
+     * @param params PostParams Object.
+     */
         public ForgotPassHandler(MainActivity activity, String user_email, PostParams params) {
             this.activity = activity;
             this.user_email = user_email;
             this.params = params;
         }
 
-        @Override
+    /**
+     * Runs in background.
+     * Requests and returns JSON Object string.
+     * @param string void
+     * @return JSON String response.
+     */
+    @Override
         protected String doInBackground(Void... string) {
             String response = "";
             HttpURLConnection urlConnection = null;
@@ -68,7 +92,13 @@ public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
             return response;
         }
 
-        @Override
+    /**
+     * Depending on response:
+     * Prompt that username doesn't exist;
+     * or resets password.
+     * @param response
+     */
+    @Override
         protected void onPostExecute(String response) {
             // Something wrong with the network or the URL.
             if (response.startsWith("Unable to")) {
@@ -99,8 +129,16 @@ public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
             }
         }
 
-        public class MoveToPinHandler extends AsyncTask<PostParams, Void, String> {
+    /**
+     * Thread that resets the password.
+     */
+    public class MoveToPinHandler extends AsyncTask<PostParams, Void, String> {
 
+        /**
+         * Requests and returns JSON object string.
+         * @param params PostParams object.
+         * @return JSON string response.
+         */
             @Override
             public String doInBackground(PostParams... params) {
                 String response = "";
@@ -139,7 +177,11 @@ public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
                 return response;
             }
 
-            @Override
+        /**
+         * Resets Password.
+         * @param response JSON String.
+         */
+        @Override
             protected void onPostExecute(String response) {
                 //activity.findViewById(R.id.register_loading).setVisibility(View.GONE);
                 //activity.findViewById(R.id.register_submit).setEnabled(true);

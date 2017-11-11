@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
             LoginPostHandler saveInfoTask = new LoginPostHandler(this);
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("user", email_text.getText().toString());
             params.put("pass", pass_text.getText().toString());
             PostParams pm = new PostParams(VERIFY_ACC_URL, params);
@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    /**
+     * Redirects to ChangePassFragment.
+     */
     @Override
     public void goForgotPassword() {
         EditText login_email = (EditText) findViewById(R.id.login_email);
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             login_email.setError("You must type in a email.");
             return;
         } else {
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("name", login_email.getText().toString());
             params.put("email", login_email.getText().toString());
             PostParams pm = new PostParams(SEND_EMAIL_URL, params);
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                 RegistrationRequirementsHandler(name_text, email_text, pass_text, confirm_text);
         if (regHandle.checkRegistrationErrors()) {
 
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("name", name_text.getText().toString());
             params.put("email", email_text.getText().toString());
             PostParams pm = new PostParams(SEND_EMAIL_URL, params);
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             pin_text.setError("You must type in a 6 pin code.");
         } else {
             //CHECK IF PIN IS CORRECT THROUGH ASYNC.
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("user", email);
             params.put("pin", pin_text.getText().toString());
             PostParams pm = new PostParams(STORE_ACC_URL, params);
@@ -163,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
     }
 
+    /**
+     * Check if password values are valid.
+     * Sends POST request to change password
+     * to backend.
+     * @param email User email.
+     */
     @Override
     public void onChangePass(String email) {
         EditText new_pass = (EditText) findViewById(R.id.change_pass);
@@ -191,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
         if (canProceed) {
             PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
-            HashMap<String, String> params = new HashMap<String, String>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("user", email);
             params.put("pass", new_pass.getText().toString());
             PostParams pm = new PostParams(CHANGE_PASS_URL, params);

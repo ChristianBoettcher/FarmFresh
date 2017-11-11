@@ -3,15 +3,11 @@ package Handler;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
  * Created by Doseo on 11/3/2017.
  * Edited by Alisher.
- */
-
-/**
  * Class for handling Registration requirements.
  * Checks User entered registration credentials for validity.
  * Requirements are:

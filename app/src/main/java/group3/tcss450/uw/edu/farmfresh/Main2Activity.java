@@ -1,11 +1,7 @@
 package group3.tcss450.uw.edu.farmfresh;
 
 import android.os.Bundle;
-import android.support.constraint.solver.ArrayLinkedVariables;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -148,8 +144,8 @@ public class Main2Activity extends AppCompatActivity
     public void searchZip() {
         ListView list = (ListView) findViewById(R.id.search_list);
         EditText zipcode = (EditText) findViewById(R.id.search_text);
-        ArrayList<String> itemList = new ArrayList<String>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayList<String> itemList = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
                 R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
         list.setAdapter(adapter);
