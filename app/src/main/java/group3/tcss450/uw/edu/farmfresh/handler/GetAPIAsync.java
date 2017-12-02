@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,21 +16,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import group3.tcss450.uw.edu.farmfresh.Main2Activity;
+import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
-import static Structure.Links.API_LINK;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.API_LINK;
 
 /**
  * Thread that searches for market around given zip code.
  * Created by Doseon on 11/3/2017.
  */
 
-public class GetAPIHandler extends AsyncTask<String, Void, String> {
+public class GetAPIAsync extends AsyncTask<String, Void, String> {
     /**
-     * Main2Activity.
+     * SearchActivity.
      */
-    Main2Activity activity;
+    SearchActivity activity;
 
     /**
      * ArrayAdapter to populate list of markets.
@@ -43,14 +43,14 @@ public class GetAPIHandler extends AsyncTask<String, Void, String> {
     private ArrayList<String> itemList;
 
     /**
-     * Constructs GetAPIHandler object.
+     * Constructs GetAPIAsync object.
      * Initializes:
-     * @param activity Main2Activity
+     * @param activity SearchActivity
      * @param adapter Populates the list.
      * @param itemList List of Markets.
      */
-    public GetAPIHandler(Main2Activity activity,
-                         ArrayAdapter<String> adapter, ArrayList<String> itemList) {
+    public GetAPIAsync(SearchActivity activity,
+                       ArrayAdapter<String> adapter, ArrayList<String> itemList) {
         this.activity = activity;
         this.itemList = itemList;
         this.adapter = adapter;

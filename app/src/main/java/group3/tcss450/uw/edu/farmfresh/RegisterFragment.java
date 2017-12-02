@@ -77,7 +77,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Calls corresponding method from MainActivity.
+     * Calls corresponding method from LoginActivity.
      */
     public interface OnFragmentInteractionListener {
 

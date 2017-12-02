@@ -117,7 +117,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Calls corresponding methods from MainActivity.
+     * Calls corresponding methods from LoginActivity.
      */
     public interface  OnFragmentInteractionListener {
         void goRegister();

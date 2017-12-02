@@ -8,29 +8,29 @@ import android.widget.EditText;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import Handler.ConfirmPinPostHandler;
-import Handler.ForgotPassHandler;
-import Handler.LoginRequirementsHandler;
-import Handler.LoginPostHandler;
-import Handler.PostHandlerNoReturn;
-import Handler.RegistrationRequirementsHandler;
-import Handler.SendEmailPostHandler;
-import Structure.PostParams;
+import group3.tcss450.uw.edu.farmfresh.handler.ConfirmPinPostAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.ForgotPassAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.LoginRequirementsHandler;
+import group3.tcss450.uw.edu.farmfresh.handler.LoginPostAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.PostHandlerNoReturnAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.RegistrationRequirementsHandler;
+import group3.tcss450.uw.edu.farmfresh.handler.SendEmailPostAsync;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
-import static Structure.Links.CHANGE_PASS_URL;
-import static Structure.Links.SEND_EMAIL_URL;
-import static Structure.Links.STORE_ACC_URL;
-import static Structure.Links.VERIFY_ACC_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.CHANGE_PASS_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.SEND_EMAIL_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.STORE_ACC_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.VERIFY_ACC_URL;
 
 /**
  * Main Activity for Login, Registration and Forgot password fragments.
  */
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
+public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
     RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener,
     ChangePassFragment.OnFragmentInteractionListener {
 
     /**
-     *Initializes MainActivity with LoginFragment.
+     *Initializes LoginActivity with LoginFragment.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
 
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
-            LoginPostHandler saveInfoTask = new LoginPostHandler(this);
+            LoginPostAsync saveInfoTask = new LoginPostAsync(this);
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email_text.getText().toString());
             params.put("pass", pass_text.getText().toString());
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             params.put("email", login_email.getText().toString());
             PostParams pm = new PostParams(SEND_EMAIL_URL, params);
 
-            ForgotPassHandler changePass = new ForgotPassHandler(this, login_email.getText()
+            ForgotPassAsync changePass = new ForgotPassAsync(this, login_email.getText()
                     .toString(), pm);
             changePass.execute();
         }
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             PostParams pm = new PostParams(SEND_EMAIL_URL, params);
 
             //SEND EMAIL ASYNC POST
-            SendEmailPostHandler sendEmail = new SendEmailPostHandler(this,
+            SendEmailPostAsync sendEmail = new SendEmailPostAsync(this,
                     email_text.getText().toString(), pm);
             sendEmail.execute();
         }
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             params.put("pin", pin_text.getText().toString());
             PostParams pm = new PostParams(STORE_ACC_URL, params);
 
-            ConfirmPinPostHandler confirmPin = new ConfirmPinPostHandler(this, pm, email, pass,
+            ConfirmPinPostAsync confirmPin = new ConfirmPinPostAsync(this, pm, email, pass,
                     name, forgot);
             confirmPin.execute();
             
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         }
 
         if (canProceed) {
-            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
+            PostHandlerNoReturnAsync saveInfoTask = new PostHandlerNoReturnAsync();
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email);
             params.put("pass", new_pass.getText().toString());

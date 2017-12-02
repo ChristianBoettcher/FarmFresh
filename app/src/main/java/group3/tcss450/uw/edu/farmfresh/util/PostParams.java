@@ -1,4 +1,4 @@
-package Structure;
+package group3.tcss450.uw.edu.farmfresh.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

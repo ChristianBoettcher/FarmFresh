@@ -16,13 +16,13 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import Handler.GetAPIHandler;
+import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
 
 /**
  * Activity for search by zip codes (main page of app).
  * Activity called after user successfully logs in.
  */
-public class Main2Activity extends AppCompatActivity
+public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchFragment.OnFragmentInteractionListener{
 
@@ -149,7 +149,7 @@ public class Main2Activity extends AppCompatActivity
                 R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
         list.setAdapter(adapter);
-        GetAPIHandler apiTask = new GetAPIHandler(this, adapter, itemList);
+        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList);
         apiTask.execute(zipcode.getText().toString());
 
 

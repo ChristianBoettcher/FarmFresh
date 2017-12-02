@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * Calls corresponding method from Main2Activity.
+     * Calls corresponding method from SearchActivity.
      */
     public interface OnFragmentInteractionListener {
         void searchZip();

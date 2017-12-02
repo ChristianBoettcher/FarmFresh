@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,27 +19,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import Structure.PostParams;
+import group3.tcss450.uw.edu.farmfresh.LoginActivity;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.ChangePassFragment;
 import group3.tcss450.uw.edu.farmfresh.LoginFragment;
-import group3.tcss450.uw.edu.farmfresh.MainActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
-import static Structure.Links.CONFIRM_PIN_URL;
-import static Structure.Links.STORE_ACC_URL;
-import static Structure.PostParams.getPostDataString;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.CONFIRM_PIN_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.STORE_ACC_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
 
 /**
  * Thread that runs in background when user submits 6-digit pin.
  * Created by Doseon on 11/9/2017.
  */
 
-public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
+public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
 
     /**
      * Activity passed to this class.
      */
-    private MainActivity activity;
+    private LoginActivity activity;
 
     /**
      * Parameters passed:
@@ -70,14 +70,14 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
     /**
      * Construct ConfirmPostHandler object.
      * Initializes:
-     * @param activity MainActivity
+     * @param activity LoginActivity
      * @param params parameters.
      * @param email user email.
      * @param pass user password.
      * @param name user name.
      */
-    public ConfirmPinPostHandler(MainActivity activity, PostParams params, String email,
-                                 String pass, String name, boolean forgot) {
+    public ConfirmPinPostAsync(LoginActivity activity, PostParams params, String email,
+                               String pass, String name, boolean forgot) {
         this.activity = activity;
         this.params = params;
         this.email = email;
@@ -194,7 +194,7 @@ public class ConfirmPinPostHandler extends AsyncTask<Void, Void, String> {
      */
     private void correctPinEntered() {
         if (!forgot) {
-            PostHandlerNoReturn saveInfoTask = new PostHandlerNoReturn();
+            PostHandlerNoReturnAsync saveInfoTask = new PostHandlerNoReturnAsync();
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email);
             params.put("pass", pass);

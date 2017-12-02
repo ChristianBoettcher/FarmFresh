@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,9 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import Structure.PostParams;
-import group3.tcss450.uw.edu.farmfresh.Main2Activity;
-import group3.tcss450.uw.edu.farmfresh.MainActivity;
+import group3.tcss450.uw.edu.farmfresh.LoginActivity;
+import group3.tcss450.uw.edu.farmfresh.SearchActivity;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.R;
 
 /**
@@ -29,19 +29,19 @@ import group3.tcss450.uw.edu.farmfresh.R;
  * Created by Doseo on 11/3/2017.
  */
 
-public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
+public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
 
     /**
-     * MainActivity
+     * LoginActivity
      */
-    MainActivity activity;
+    LoginActivity activity;
 
     /**
-     * Constructs LoginPostHandler Object.
+     * Constructs LoginPostAsync Object.
      * Initializes:
-     * @param activity MainActivity.
+     * @param activity LoginActivity.
      */
-    public LoginPostHandler(MainActivity activity) {
+    public LoginPostAsync(LoginActivity activity) {
         this.activity = activity;
     }
 
@@ -114,7 +114,7 @@ public class LoginPostHandler extends AsyncTask<PostParams, Integer, String>{
                 if (code == 300) {
                     //success
                     ((EditText)activity.findViewById(R.id.login_pass)).setText("");
-                    activity.startActivity(new Intent(activity, Main2Activity.class));
+                    activity.startActivity(new Intent(activity, SearchActivity.class));
                 } else if (code == 200) {
                     //wrong login
                 } else if (code == 201){

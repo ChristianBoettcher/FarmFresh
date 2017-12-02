@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,13 +19,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import Structure.PostParams;
-import group3.tcss450.uw.edu.farmfresh.MainActivity;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
+import group3.tcss450.uw.edu.farmfresh.LoginActivity;
 import group3.tcss450.uw.edu.farmfresh.PinFragment;
 import group3.tcss450.uw.edu.farmfresh.R;
 
-import static Structure.Links.CHECK_USER_URL;
-import static Structure.PostParams.getPostDataString;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.CHECK_USER_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
 
 /**
  * Thread that sends pin code to user email.
@@ -33,12 +33,12 @@ import static Structure.PostParams.getPostDataString;
  */
 
 
-public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
+public class SendEmailPostAsync extends AsyncTask<Void, Void, String> {
 
     /**
-     * MainActivity.
+     * LoginActivity.
      */
-    MainActivity activity;
+    LoginActivity activity;
 
     /**
      * User email.
@@ -51,13 +51,13 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
     PostParams params;
 
     /**
-     * Construct SendEmailPostHandler object.
+     * Construct SendEmailPostAsync object.
      * Initializes:
-     * @param activity MainActivity.
+     * @param activity LoginActivity.
      * @param user_email User email.
      * @param params PostParams object.
      */
-    public SendEmailPostHandler(MainActivity activity, String user_email, PostParams params) {
+    public SendEmailPostAsync(LoginActivity activity, String user_email, PostParams params) {
         this.activity = activity;
         this.user_email = user_email;
         this.params = params;
@@ -141,7 +141,7 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
 
     /**
      * Class that manages pin code sending.
-     * Called from SendEmailPostHandler.
+     * Called from SendEmailPostAsync.
      */
     public class moveToPinPageHandler extends AsyncTask<PostParams, Void, String> {
 
@@ -245,12 +245,12 @@ public class SendEmailPostHandler extends AsyncTask<Void, Void, String> {
 }
 
 /*
-public class SendEmailPostHandler extends AsyncTask<PostParams, Void, String> {
+public class SendEmailPostAsync extends AsyncTask<PostParams, Void, String> {
 
-    MainActivity activity;
+    LoginActivity activity;
     String user_email;
 
-    public SendEmailPostHandler(MainActivity activity, String user_email) {
+    public SendEmailPostAsync(LoginActivity activity, String user_email) {
         this.activity = activity;
         this.user_email = user_email;
     }

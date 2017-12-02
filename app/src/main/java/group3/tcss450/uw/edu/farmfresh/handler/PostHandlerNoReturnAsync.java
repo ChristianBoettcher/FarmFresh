@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,16 +13,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import Structure.PostParams;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
-import static Structure.PostParams.getPostDataString;
+import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
 
 /**
  * Dynamic POST request handler.
  * Created by Doseon on 11/3/2017.
  */
 
-public class PostHandlerNoReturn extends AsyncTask<PostParams, Void, String> {
+public class PostHandlerNoReturnAsync extends AsyncTask<PostParams, Void, String> {
 
     /**
      * Performs POST request.

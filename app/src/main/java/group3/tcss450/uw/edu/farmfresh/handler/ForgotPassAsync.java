@@ -1,4 +1,4 @@
-package Handler;
+package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,13 +18,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import Structure.PostParams;
-import group3.tcss450.uw.edu.farmfresh.MainActivity;
+import group3.tcss450.uw.edu.farmfresh.LoginActivity;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.PinFragment;
 import group3.tcss450.uw.edu.farmfresh.R;
 
-import static Structure.Links.CHECK_USER_URL;
-import static Structure.PostParams.getPostDataString;
+import static group3.tcss450.uw.edu.farmfresh.util.Links.CHECK_USER_URL;
+import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
 
 /**
  * Thread that checks if email is valid
@@ -32,12 +32,12 @@ import static Structure.PostParams.getPostDataString;
  * Created by Doseo on 11/10/2017.
  */
 
-public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
+public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
 
     /**
-     * MainActivity.
+     * LoginActivity.
      */
-    MainActivity activity;
+    LoginActivity activity;
 
     /**
      * User email.
@@ -50,12 +50,12 @@ public class ForgotPassHandler extends AsyncTask<Void, Void, String> {
     PostParams params;
 
     /**
-     * Constructs ForgotPassHandler Object.
-     * @param activity MainActivity
+     * Constructs ForgotPassAsync Object.
+     * @param activity LoginActivity
      * @param user_email User email.
      * @param params PostParams Object.
      */
-        public ForgotPassHandler(MainActivity activity, String user_email, PostParams params) {
+        public ForgotPassAsync(LoginActivity activity, String user_email, PostParams params) {
             this.activity = activity;
             this.user_email = user_email;
             this.params = params;
