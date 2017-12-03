@@ -45,7 +45,7 @@ public class FarmDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_farm_details, container, false);
-
+       //ListView lv = (ListView) v.findViewById(R.id.farm_details_list);
         return v;
     }
 
