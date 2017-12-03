@@ -1,5 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -18,12 +19,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
+import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
+import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Activity for search by zip codes (main page of app).
@@ -33,12 +39,15 @@ public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchFragment.OnFragmentInteractionListener{
 
+    private UserDB userDB;
+
     /**
      *Initializes this activity with SearchFragment.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_container, new SearchFragment())
@@ -125,7 +134,27 @@ public class SearchActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.logout) {
+            /*Bundle args = new Bundle();
+            args.putSerializable(getString(R.string.DB_NAME),
+                    (Serializable) userDB.getUser());
+            args.putSerializable(getString(R.string.LOGGED_OUT), true);
+
+            LoginFragment lf = new LoginFragment();
+            lf.setArguments(args);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, lf)
+                    .commit();*/
+
+
+            //startActivity(new Intent(this, LoginActivity.class));
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("SQLITE", 1);
+            startActivity(intent);
+        }
+
+        /*if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -137,7 +166,7 @@ public class SearchActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -190,6 +219,10 @@ public class SearchActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    public void saveToSqlite(String user, String pass, boolean auto) {
+        userDB.insertUser(user, pass, auto);
     }
 
     /*public void farmDetails(String market) {

@@ -53,15 +53,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
            UserEntry user =
                     (UserEntry) getArguments().getSerializable(
                             getString(R.string.DB_NAME));
+
+            EditText email = (EditText) getActivity().findViewById(R.id.login_email);
+            EditText password = (EditText) getActivity().findViewById(R.id.login_pass);
+            email.setText(user.getUsername());
             if (user.getAutoLogin()) {
-                EditText email = (EditText) getActivity().findViewById(R.id.login_email);
-                email.setText(user.getUsername());
+                password.setText(user.getPassword());
+                mListener.loginManager();
             }
-               // TextView tv = new TextView(getContext());
-               // tv.setText(user.getUsername() + ", " + user.getPassword() + ", " +
-                 //       user.getAutoLogin());
-               // layout.addView(tv);
-            }
+        }
     }
 
     /**
@@ -121,9 +121,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInterationListener");
         }
     }
 

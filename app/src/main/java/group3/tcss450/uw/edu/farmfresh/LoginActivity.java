@@ -3,6 +3,8 @@ package group3.tcss450.uw.edu.farmfresh;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.io.Serializable;
@@ -17,6 +19,7 @@ import group3.tcss450.uw.edu.farmfresh.handler.PostHandlerNoReturnAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.RegistrationRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.SendEmailPostAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
+import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CHANGE_PASS_URL;
@@ -46,9 +49,20 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 if (userDB == null) {
                     userDB = new UserDB(this);
                 }
+
+                Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
+                Log.d("SQLITE INTENT", "" + loggedout);
+
+                if (loggedout == 1) {
+                    UserEntry user = userDB.getUser();
+
+                    saveToSqlite(user.getUsername(), user.getPassword(), false);
+                }
+
                 Bundle args = new Bundle();
                 args.putSerializable(getString(R.string.DB_NAME),
                         (Serializable) userDB.getUser());
+
                 LoginFragment lf = new LoginFragment();
                 lf.setArguments(args);
                 getSupportFragmentManager().beginTransaction()
@@ -81,11 +95,13 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         //Handles the login.
         EditText email_text = (EditText) findViewById(R.id.login_email);
         EditText pass_text = (EditText) findViewById(R.id.login_pass);
+        CheckBox auto = (CheckBox) findViewById(R.id.remember_CheckBox);
 
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
+
             LoginPostAsync saveInfoTask = new LoginPostAsync(this, email_text.getText().toString(),
-                    pass_text.getText().toString(), true);
+                    pass_text.getText().toString(), auto.isChecked());
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email_text.getText().toString());
             params.put("pass", pass_text.getText().toString());

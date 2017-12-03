@@ -86,8 +86,8 @@ public class UserDB {
                 boolean auto = false;
                 if (c.getInt(2) == 1)
                     auto = true;
-                Log.d("TEST", user +", " + pass + ", " + auto);
-                return new UserEntry(user, pass, true);
+                Log.d("LOG INSIDE USERDB", user +", " + pass + ", " + auto);
+                return new UserEntry(user, pass, auto);
             }
         }
 

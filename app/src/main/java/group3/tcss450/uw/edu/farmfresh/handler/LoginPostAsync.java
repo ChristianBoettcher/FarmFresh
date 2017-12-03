@@ -2,6 +2,7 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -120,6 +122,7 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
                 Integer code = mainObject.getInt("code");
                 if (code == 300) {
                     //success
+
 
                     activity.saveToSqlite(username, pass, auto);
 
