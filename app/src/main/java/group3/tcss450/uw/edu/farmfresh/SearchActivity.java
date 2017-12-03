@@ -8,15 +8,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 
 /**
  * Activity for search by zip codes (main page of app).
@@ -142,16 +149,56 @@ public class SearchActivity extends AppCompatActivity
      */
     @Override
     public void searchZip() {
-        ListView list = (ListView) findViewById(R.id.search_list);
+        final ListView list = (ListView) findViewById(R.id.search_list);
         EditText zipcode = (EditText) findViewById(R.id.search_text);
+        final Map<String, String> map = new HashMap<>();
         ArrayList<String> itemList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
                 R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
         list.setAdapter(adapter);
-        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList);
+        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map);
         apiTask.execute(zipcode.getText().toString());
 
+        list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String marketname = (String) list.getItemAtPosition(position);
+                String marketid = map.get(marketname);
+                Log.d("YOU SELECTED ITEM: " + marketname, "YOU SELECTED ITEM: " + marketid);
+
+                //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_container, new FarmDetailsFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+
+                final ListView list = (ListView) findViewById(R.id.farm_details_list);
+                ArrayList<String> itemList = new ArrayList<>();
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                        R.layout.list_view_layout, R.id.custom_text_view, itemList);
+
+                list.setAdapter(adapter);
+
+                /*
+                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(detailsAdapter, detailsItemList);
+                detailsApiTask.execute(marketid);*/
+
+            }
+        });
     }
+
+    /*public void farmDetails(String market) {
+        ListView detailsList = (ListView) findViewById(R.id.farm_details_list);
+        ArrayList<String> detailsItemList = new ArrayList<>();
+        ArrayAdapter<String> detailsAdapter = new ArrayAdapter<>(getApplicationContext(),
+                R.layout.list_view_layout, R.id.custom_text_view, detailsItemList);
+        detailsList.setAdapter(detailsAdapter);
+        GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(this, detailsAdapter, detailsItemList);
+        detailsApiTask.execute(market);
+    }*/
 }
