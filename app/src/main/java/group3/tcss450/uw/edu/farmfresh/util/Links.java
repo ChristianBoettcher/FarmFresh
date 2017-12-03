@@ -29,4 +29,7 @@ public class Links {
 
     public static final String CHANGE_PASS_URL
             = "http://cssgate.insttech.washington.edu/~doseon/FarmFresh/change_pass.php";
+
+    public static final String API_DETAILS_LINK
+            = "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=";
 }

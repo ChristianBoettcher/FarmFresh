@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
@@ -42,6 +43,8 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     private ArrayList<String> itemList;
 
+    private Map<String, String> myMap;
+
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
@@ -50,10 +53,12 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      * @param itemList List of Markets.
      */
     public GetAPIAsync(SearchActivity activity,
-                       ArrayAdapter<String> adapter, ArrayList<String> itemList) {
+                       ArrayAdapter<String> adapter, ArrayList<String> itemList,
+                       Map<String, String> map) {
         this.activity = activity;
         this.itemList = itemList;
         this.adapter = adapter;
+        myMap = map;
     }
 
     /**
@@ -110,10 +115,11 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
                 for(int i = 0; i < js_array.length(); i++){
                     JSONObject obj = js_array.getJSONObject(i);
 
-                    Integer id = obj.getInt("id");
+                    String id = obj.getString("id");
                     String market_name=obj.getString("marketname");
                     Log.d("MARKET_NAME", market_name);
                     itemList.add(market_name);
+                    myMap.put(market_name, id);
                 }
                 adapter.notifyDataSetChanged();
             } catch (Exception ex) {

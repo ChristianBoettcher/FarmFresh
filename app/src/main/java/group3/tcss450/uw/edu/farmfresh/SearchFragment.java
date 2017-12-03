@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 
 /**
@@ -18,7 +20,8 @@ import android.widget.Button;
  * {@link SearchFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class SearchFragment extends Fragment implements View.OnClickListener {
+public class SearchFragment extends Fragment implements View.OnClickListener,
+    android.widget.AdapterView.OnItemClickListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,6 +41,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         Button submit = (Button) v.findViewById(R.id.search_button);
         submit.setOnClickListener(this);
 
+        ListView lv = (ListView) v.findViewById(R.id.search_list);
+        lv.setOnItemClickListener(this);
+
         return v;
     }
 
@@ -53,6 +59,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 
     /**
@@ -80,5 +91,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
      */
     public interface OnFragmentInteractionListener {
         void searchZip();
+
     }
 }
