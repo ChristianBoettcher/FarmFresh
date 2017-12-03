@@ -154,20 +154,6 @@ public class SearchActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -189,7 +175,9 @@ public class SearchActivity extends AppCompatActivity
         GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map);
         apiTask.execute(zipcode.getText().toString());
 
-        list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        final SearchActivity activity = this;
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -199,30 +187,22 @@ public class SearchActivity extends AppCompatActivity
 
                 //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
 
+                ArrayList<String> detailList = new ArrayList<>();
+
+                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(activity, detailList);
+                detailsApiTask.execute(marketid);
+
+
+                FarmDetailsFragment fdg = new FarmDetailsFragment();
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_container, new FarmDetailsFragment())
+                        .replace(R.id.main_container, fdg)
                         .addToBackStack(null)
                         .commit();
 
-
-                final ListView list = (ListView) findViewById(R.id.farm_details_list);
-                ArrayList<String> itemList = new ArrayList<>();
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.list_view_layout, R.id.custom_text_view, itemList);
-
-                list.setAdapter(adapter);
-
-                /*
-                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(detailsAdapter, detailsItemList);
-                detailsApiTask.execute(marketid);*/
-
             }
         });
-    }
-
-    public void saveToSqlite(String user, String pass, boolean auto) {
-        userDB.insertUser(user, pass, auto);
     }
 
     /*public void farmDetails(String market) {

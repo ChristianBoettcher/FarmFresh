@@ -3,6 +3,7 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import group3.tcss450.uw.edu.farmfresh.R;
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
@@ -23,13 +25,15 @@ import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 
 public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
 
-    private ArrayAdapter<String> myAdapter;
+    /**
+     * SearchActivity.
+     */
+    SearchActivity activity;
 
     private ArrayList<String> myItemList;
 
-    public GetAPIDetailsAsync(ArrayAdapter<String> adapter,
-                              ArrayList<String> itemList) {
-        myAdapter = adapter;
+    public GetAPIDetailsAsync(SearchActivity activity, ArrayList<String> itemList) {
+        this.activity = activity;
         myItemList = itemList;
     }
 
@@ -75,7 +79,11 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
                 myItemList.add(googleLink);
                 myItemList.add(products);
                 myItemList.add(schedule);
-                myAdapter.notifyDataSetChanged();
+
+                ListView list = (ListView) activity.findViewById(R.id.farm_details_list);
+
+                list.setAdapter(new ArrayAdapter<String>(activity,
+                        R.layout.list_view_layout, R.id.custom_text_view, myItemList));
             } catch (Exception ex) {
 
             }
