@@ -36,13 +36,20 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
      */
     LoginActivity activity;
 
+    String username;
+    String pass;
+    boolean auto;
+
     /**
      * Constructs LoginPostAsync Object.
      * Initializes:
      * @param activity LoginActivity.
      */
-    public LoginPostAsync(LoginActivity activity) {
+    public LoginPostAsync(LoginActivity activity, String username, String pass, boolean auto) {
         this.activity = activity;
+        this.username = username;
+        this.pass = pass;
+        this.auto = auto;
     }
 
     /**
@@ -113,6 +120,9 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
                 Integer code = mainObject.getInt("code");
                 if (code == 300) {
                     //success
+
+                    activity.saveToSqlite(username, pass, auto);
+
                     ((EditText)activity.findViewById(R.id.login_pass)).setText("");
                     activity.startActivity(new Intent(activity, SearchActivity.class));
                 } else if (code == 200) {

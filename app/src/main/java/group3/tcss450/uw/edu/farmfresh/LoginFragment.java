@@ -4,12 +4,17 @@ package group3.tcss450.uw.edu.farmfresh;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
 
 
 /**
@@ -36,14 +41,27 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         if (getArguments() != null) {
-            String user = getArguments().getString(getString(R.string.email_key));
+            /*String user = getArguments().getString(getString(R.string.email_key));
             String message = getArguments().getString("LOGIN_MESSAGE");
             EditText email = (EditText) getActivity().findViewById(R.id.login_email);
             email.setText(user);
             Toast.makeText(getActivity(),
                     message,
                     Toast.LENGTH_SHORT).show();
-        }
+                    */
+
+           UserEntry user =
+                    (UserEntry) getArguments().getSerializable(
+                            getString(R.string.DB_NAME));
+            if (user.getAutoLogin()) {
+                EditText email = (EditText) getActivity().findViewById(R.id.login_email);
+                email.setText(user.getUsername());
+            }
+               // TextView tv = new TextView(getContext());
+               // tv.setText(user.getUsername() + ", " + user.getPassword() + ", " +
+                 //       user.getAutoLogin());
+               // layout.addView(tv);
+            }
     }
 
     /**
@@ -66,7 +84,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         b.setOnClickListener(this);
         b = (Button) v.findViewById(R.id.forgot_button);
         b.setOnClickListener(this);
-
         return v;
     }
 

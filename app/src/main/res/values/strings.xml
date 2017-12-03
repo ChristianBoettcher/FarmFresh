@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">FarmFresh</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <string name="email_key">EMAIL KEY</string>
     <string name="password_key">PASSWORD KEY</string>
     <string name="name_key">NAME KEY</string>
@@ -14,5 +11,23 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+
+    <string name="CREATE_FARMFRESH_SQL">
+    CREATE TABLE IF NOT EXISTS FarmFreshUsers
+    (username VARCHAR(24),
+    password VARCHAR(24), autologin BOOLEAN)
+    </string>
+    <string name="DROP_FARMFRESH_SQL">
+    DROP TABLE IF EXISTS FarmFreshUsers
+    </string>
+    <string-array name="DB_COLUMN_NAMES">
+        <item>username</item>
+        <item>password</item>
+        <item>autologin</item>
+    </string-array>
+    <string name="DB_NAME">FarmFresh.db</string> 
+    <string name="TABLE_NAME">FarmFreshUsers</string>
+
 
 </resources>

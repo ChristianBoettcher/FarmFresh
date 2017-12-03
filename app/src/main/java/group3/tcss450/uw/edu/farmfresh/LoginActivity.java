@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import group3.tcss450.uw.edu.farmfresh.handler.LoginPostAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.PostHandlerNoReturnAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.RegistrationRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.SendEmailPostAsync;
+import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CHANGE_PASS_URL;
@@ -29,6 +31,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener,
     ChangePassFragment.OnFragmentInteractionListener {
 
+    private UserDB userDB;
+
     /**
      *Initializes LoginActivity with LoginFragment.
      */
@@ -39,8 +43,16 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         if (savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
+                if (userDB == null) {
+                    userDB = new UserDB(this);
+                }
+                Bundle args = new Bundle();
+                args.putSerializable(getString(R.string.DB_NAME),
+                        (Serializable) userDB.getUser());
+                LoginFragment lf = new LoginFragment();
+                lf.setArguments(args);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragmentContainer, new LoginFragment())
+                        .add(R.id.fragmentContainer, lf)
                         .commit();
             }
         }
@@ -72,7 +84,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
-            LoginPostAsync saveInfoTask = new LoginPostAsync(this);
+            LoginPostAsync saveInfoTask = new LoginPostAsync(this, email_text.getText().toString(),
+                    pass_text.getText().toString(), true);
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email_text.getText().toString());
             params.put("pass", pass_text.getText().toString());
@@ -160,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             PostParams pm = new PostParams(STORE_ACC_URL, params);
 
             ConfirmPinPostAsync confirmPin = new ConfirmPinPostAsync(this, pm, email, pass,
-                    name, forgot);
+                    name, forgot, userDB);
             confirmPin.execute();
             
         }
@@ -218,6 +231,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                     .addToBackStack(null);
             transaction.commit();
         }
+    }
 
+    public void saveToSqlite(String user, String pass, boolean auto) {
+        if (userDB == null) {
+            userDB = new UserDB(this);
+        }
+        userDB.insertUser(user, pass, auto);
     }
 }
