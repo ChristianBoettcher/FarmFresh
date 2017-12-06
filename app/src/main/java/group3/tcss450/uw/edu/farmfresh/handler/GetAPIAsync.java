@@ -43,7 +43,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     private ArrayList<String> itemList;
 
-    private Map<String, String> myMap;
+    private Map<String, Integer> myMap;
 
     /**
      * Constructs GetAPIAsync object.
@@ -54,7 +54,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     public GetAPIAsync(SearchActivity activity,
                        ArrayAdapter<String> adapter, ArrayList<String> itemList,
-                       Map<String, String> map) {
+                       Map<String, Integer> map) {
         this.activity = activity;
         this.itemList = itemList;
         this.adapter = adapter;
@@ -115,12 +115,13 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
                 for(int i = 0; i < js_array.length(); i++){
                     JSONObject obj = js_array.getJSONObject(i);
 
-                    String id = obj.getString("id");
+                    Integer id = obj.getInt("id");
                     String market_name=obj.getString("marketname");
                     Log.d("MARKET_NAME", market_name);
                     itemList.add(market_name);
                     myMap.put(market_name, id);
                 }
+                activity.saveMarketList(itemList, myMap);
                 adapter.notifyDataSetChanged();
             } catch (Exception ex) {
                 //not JSON RETURNED

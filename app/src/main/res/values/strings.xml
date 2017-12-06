@@ -12,6 +12,25 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="MARKET_LIST">MYMARKETLIST</string>
+    <string name="MARKET_MAP">MYMARKETMAP</string>
+
+
+    <string name="CREATE_FARMFRESH_SQL2">
+    CREATE TABLE IF NOT EXISTS FarmFreshList
+    (marketname VARCHAR(50),
+    marketid INTEGER)
+    </string>
+    <string name="DROP_FARMFRESH_SQL2">
+    DROP TABLE IF EXISTS FarmFreshList
+    </string>
+    <string-array name="DB_COLUMN_NAMES2">
+        <item>marketname</item>
+        <item>marketid</item>
+    </string-array>
+    <string name="DB_NAME2">FarmFresh2.db</string> 
+    <string name="TABLE_NAME2">FarmFreshList</string>
+
 
     <string name="CREATE_FARMFRESH_SQL">
     CREATE TABLE IF NOT EXISTS FarmFreshUsers
