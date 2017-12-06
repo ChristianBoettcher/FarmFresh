@@ -79,7 +79,6 @@ public class SearchActivity extends AppCompatActivity
         List<ListEntry> marketEntries = mMarketDB.getList();
         marketList = new ArrayList<String>();
         marketMap = new HashMap<String, Integer>();
-
         for (ListEntry market : marketEntries) {
             marketList.add(market.getMarketName());
             marketMap.put(market.getMarketName(), market.getMarketId());
@@ -187,53 +186,18 @@ public class SearchActivity extends AppCompatActivity
     public void searchZip() {
         final ListView list = (ListView) findViewById(R.id.search_list);
         EditText zipcode = (EditText) findViewById(R.id.search_text);
-        final Map<String, Integer> map = new HashMap<>();
-        ArrayList<String> itemList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
-        list.setAdapter(adapter);
-        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map);
+        GetAPIAsync apiTask = new GetAPIAsync(this, marketList, marketMap);
         apiTask.execute(zipcode.getText().toString());
 
-        final SearchActivity activity = this;
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String marketname = (String) list.getItemAtPosition(position);
-                String marketid = map.get(marketname).toString();
-                Log.d("YOU SELECTED ITEM: " + marketname, "YOU SELECTED ITEM: " + marketid);
-
-                //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
-
-                ArrayList<String> detailList = new ArrayList<>();
-
-                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(activity, detailList);
-                detailsApiTask.execute(marketid);
-
-
-                FarmDetailsFragment fdg = new FarmDetailsFragment();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_container, fdg)
-                        .addToBackStack(null)
-                        .commit();
-
-                /*
-                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(detailsAdapter, detailsItemList);
-                detailsApiTask.execute(marketid);*/
-
-            }
-        });
     }
 
-    public void saveMarketList(List<String> marketList, Map<String, Integer> map) {
+    public void saveMarketList(ArrayList<String> marketList, Map<String, Integer> map) {
         if (mMarketDB == null) {
             mMarketDB = new ListDB(this);
         }
+        this.marketList = marketList;
+        this.marketMap = marketMap;
         mMarketDB.clearList();
         for (String market : marketList) {
             mMarketDB.insertMarket(market, map.get(market));

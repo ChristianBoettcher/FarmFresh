@@ -3,6 +3,7 @@ package group3.tcss450.uw.edu.farmfresh;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
 import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
@@ -50,6 +52,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onStart() {
         super.onStart();
+        marketList = new ArrayList<String>();
+        marketMap = new HashMap<String, Integer>();
         if (getArguments() != null) {
 
 
@@ -58,8 +62,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             }
 
             List<ListEntry> marketEntries = mMarketDB.getList();
-            marketList = new ArrayList<String>();
-            marketMap = new HashMap<String, Integer>();
+            marketList = getArguments().getStringArrayList(getString(R.string.MARKET_LIST));
+            marketMap = (HashMap<String,Integer>)
+                    getArguments().getSerializable(getString(R.string.MARKET_MAP));
 
             for (ListEntry market : marketEntries) {
                 marketList.add(market.getMarketName());
@@ -78,6 +83,38 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
                     R.layout.list_view_layout, R.id.custom_text_view, marketList);
 
             lv.setAdapter(adapter);
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String marketname = (String) lv.getItemAtPosition(position);
+                    String marketid = marketMap.get(marketname).toString();
+                    Log.d("YOU SELECTED ITEM: " + marketname, "YOU SELECTED ITEM: " + marketid);
+
+                    //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
+
+                    ArrayList<String> detailList = new ArrayList<>();
+
+                    GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync((SearchActivity)
+                            getActivity(), detailList);
+                    detailsApiTask.execute(marketid);
+
+
+                    FarmDetailsFragment fdg = new FarmDetailsFragment();
+
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_container, fdg)
+                            .addToBackStack(null)
+                            .commit();
+
+                /*
+                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(detailsAdapter, detailsItemList);
+                detailsApiTask.execute(marketid);*/
+
+                }
+            });
 
         }
     }
