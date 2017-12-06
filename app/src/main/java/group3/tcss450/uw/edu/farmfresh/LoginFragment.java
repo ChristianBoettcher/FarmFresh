@@ -50,6 +50,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     Toast.LENGTH_SHORT).show();
                     */
 
+            String message = getArguments().getString("LOGIN_MESSAGE");
+            if (!message.isEmpty() && message != null) {
+                Toast.makeText(getActivity(),
+                        message,
+                        Toast.LENGTH_SHORT).show();
+            }
+
            UserEntry user =
                     (UserEntry) getArguments().getSerializable(
                             getString(R.string.DB_NAME));
