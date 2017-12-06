@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 Bundle args = new Bundle();
                 args.putSerializable(getString(R.string.DB_NAME),
                         (Serializable) userDB.getUser());
+                args.putSerializable("LOGIN_MESSAGE", "");
 
                 LoginFragment lf = new LoginFragment();
                 lf.setArguments(args);
@@ -234,11 +235,17 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             params.put("pass", new_pass.getText().toString());
             PostParams pm = new PostParams(CHANGE_PASS_URL, params);
             saveInfoTask.execute(pm);
-
             //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
+            if (userDB == null) {
+                userDB = new UserDB(this);
+            }
+            saveToSqlite(email, new_pass.getText().toString(), false);
+
+
             Bundle args = new Bundle();
-            args.putSerializable(getString(R.string.email_key), email);
+            args.putSerializable(getString(R.string.DB_NAME),
+                    (Serializable) userDB.getUser());
             args.putSerializable("LOGIN_MESSAGE", "You have successfully changed your password.");
             LoginFragment lf = new LoginFragment();
             lf.setArguments(args);
