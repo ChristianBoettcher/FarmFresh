@@ -20,6 +20,7 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/separation_view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
@@ -35,6 +36,7 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/separation_view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
@@ -51,6 +53,7 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/separation_view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>

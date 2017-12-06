@@ -5,6 +5,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
         myItemList = itemList;
     }
 
+
     @Override
     protected String doInBackground(String... details) {
         String response = "";
@@ -69,6 +71,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
+
         if (response.startsWith("Unable to")) {
             Log.d("error","error DetailsAPI");
             return;
@@ -76,15 +79,14 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
             try {
                 JSONObject js_result = new JSONObject(response);
                 JSONObject details = new JSONObject(js_result.getString("marketdetails"));
+
                 String address = (String) details.get("Address");
                 String googleLink = (String) details.get("GoogleLink");
                 String products = (String) details.get("Products");
                 String schedule = (String) details.get("Schedule");
+
                 myItemList.add(address);
-
-
                 myItemList.add(googleLink);
-
                 myItemList.add(products);
                 myItemList.add(schedule);
 
@@ -102,14 +104,6 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
 
                 TextView scheduleTV = (TextView) activity.findViewById(R.id.schedule_text_view);
                 scheduleTV.setText("Dates: " + schedule.substring(0, schedule.indexOf(';')));
-
-                /*ListView list = (ListView) activity.findViewById(R.id.farm_details_list);
-                ArrayAdapter<String> aa = new ArrayAdapter<String>(activity,
-                        R.layout.list_view_layout, R.id.custom_text_view, myItemList);
-
-                list.setAdapter(aa);*/
-
-
 
             } catch (Exception ex) {
 

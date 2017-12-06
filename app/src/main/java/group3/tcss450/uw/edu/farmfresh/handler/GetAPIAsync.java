@@ -14,12 +14,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
+import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_LINK;
 
 /**
@@ -45,6 +48,8 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
 
     private Map<String, String> myMap;
 
+    private final String[] myFilters;
+
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
@@ -54,11 +59,12 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     public GetAPIAsync(SearchActivity activity,
                        ArrayAdapter<String> adapter, ArrayList<String> itemList,
-                       Map<String, String> map) {
+                       Map<String, String> map, String[] theFilters) {
         this.activity = activity;
         this.itemList = itemList;
         this.adapter = adapter;
-        myMap = map;
+        this.myMap = map;
+        this.myFilters = theFilters;
     }
 
     /**
@@ -108,16 +114,14 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
             return;
         } else {
             try {
-                Log.d("MARKET_NAME", "SEARCH");
+
                 JSONObject js_result = new JSONObject(response);
                 JSONArray js_array = new JSONArray(js_result.getString("results"));
 
                 for(int i = 0; i < js_array.length(); i++){
                     JSONObject obj = js_array.getJSONObject(i);
-
                     String id = obj.getString("id");
-                    String market_name=obj.getString("marketname");
-                    Log.d("MARKET_NAME", market_name);
+                    String market_name = obj.getString("marketname");
                     itemList.add(market_name);
                     myMap.put(market_name, id);
                 }
@@ -127,6 +131,8 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
             }
         }
     }
+
+
 
     /**
      * Prepares thread.

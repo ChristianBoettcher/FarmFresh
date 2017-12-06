@@ -1,5 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ public class SearchActivity extends AppCompatActivity
         SearchFragment.OnFragmentInteractionListener{
 
     private UserDB userDB;
+
+    private final String[] filters = {"", ""};
 
     /**
      *Initializes this activity with SearchFragment.
@@ -131,6 +136,8 @@ public class SearchActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        //String[] filters = {"", ""};
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -152,6 +159,9 @@ public class SearchActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("SQLITE", 1);
             startActivity(intent);
+        } else if (id == R.id.filters_item) {
+
+            showFilters();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,7 +182,7 @@ public class SearchActivity extends AppCompatActivity
                 R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
         list.setAdapter(adapter);
-        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map);
+        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map, filters);
         apiTask.execute(zipcode.getText().toString());
 
         final SearchActivity activity = this;
@@ -214,4 +224,30 @@ public class SearchActivity extends AppCompatActivity
         GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(this, detailsAdapter, detailsItemList);
         detailsApiTask.execute(market);
     }*/
+
+    private void showFilters() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Filters");
+
+        LinearLayout alertLayout = new LinearLayout(this);
+        alertLayout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText productsText = new EditText(this);
+
+        final EditText datesText = new EditText(this);
+
+        alertLayout.addView(productsText);
+        alertLayout.addView(datesText);
+
+        alert.setView(alertLayout);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                filters[0] = productsText.getText().toString();
+                filters[1] = datesText.getText().toString();
+            }
+        });
+        alert.show();
+
+    }
 }
