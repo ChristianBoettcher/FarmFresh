@@ -60,8 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
 
                 if (loggedout == 1) {
-                    mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), 0);
-                    mPrefs.edit().commit();
+                    mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), 0).apply();
                 }
 
                 LoginFragment lf = new LoginFragment();
@@ -239,10 +238,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             saveInfoTask.execute(pm);
             //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
-            mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), 0);
-            mPrefs.edit().putString(getString(R.string.SAVEDNAME), email);
-            mPrefs.edit().putString(getString(R.string.SAVEDPASS), new_pass.getText().toString());
-            mPrefs.edit().commit();
+            saveToSharedPrefs(email, new_pass.toString(), 0);
 
             Bundle args = new Bundle();
 
