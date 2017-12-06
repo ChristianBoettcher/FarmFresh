@@ -1,5 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
