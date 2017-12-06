@@ -34,13 +34,17 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
     /**
      * SearchActivity.
      */
-    SearchActivity activity;
+    private SearchActivity activity;
 
-    private ArrayList<String> myItemList;
 
-    public GetAPIDetailsAsync(SearchActivity activity, ArrayList<String> itemList) {
+
+    /**
+     * Constructor
+     * @param activity SearchActivity
+     */
+    public GetAPIDetailsAsync(SearchActivity activity) {
         this.activity = activity;
-        myItemList = itemList;
+
     }
 
 
@@ -85,10 +89,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
                 String products = (String) details.get("Products");
                 String schedule = (String) details.get("Schedule");
 
-                myItemList.add(address);
-                myItemList.add(googleLink);
-                myItemList.add(products);
-                myItemList.add(schedule);
+
 
                 TextView addressTV = (TextView) activity.findViewById(R.id.address_text_view);
                 addressTV.setText("Address: " + address);

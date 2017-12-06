@@ -9,52 +9,53 @@
         android:id="@+id/registration_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="117dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Name" />
+        android:hint="Name"
+        android:layout_above="@+id/registration_email"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/registration_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/registration_name"
-        android:layout_alignStart="@+id/registration_name"
-        android:layout_below="@+id/registration_name"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:layout_above="@+id/registration_pass"
+        android:layout_alignLeft="@+id/registration_name"
+        android:layout_alignStart="@+id/registration_name" />
 
     <EditText
         android:id="@+id/registration_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/registration_email"
-        android:layout_alignRight="@+id/registration_email"
-        android:layout_below="@+id/registration_email"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_above="@+id/registration_confirm"
+        android:layout_alignLeft="@+id/registration_email"
+        android:layout_alignStart="@+id/registration_email" />
 
     <EditText
         android:id="@+id/registration_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registration_pass"
-        android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Confirm Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_above="@+id/register_submit"
+        android:layout_alignLeft="@+id/registration_pass"
+        android:layout_alignStart="@+id/registration_pass" />
 
     <Button
         android:id="@+id/register_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registration_confirm"
+        android:text="Submit"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Submit" />
+        android:layout_marginBottom="12dp" />
 
     <ProgressBar
         android:id="@+id/register_loading"

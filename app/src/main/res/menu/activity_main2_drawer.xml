@@ -6,10 +6,10 @@
             android:id="@+id/logout"
             android:icon="@drawable/ic_menu_manage"
             android:title="Logout" />
-        <item
+     <!--  <item
             android:id="@+id/filters_item"
             android:title="Filters"
-            />
+            /> -->
 
     </group>
 

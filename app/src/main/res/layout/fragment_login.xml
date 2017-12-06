@@ -9,38 +9,38 @@
         android:id="@+id/login_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login_pass"
-        android:layout_alignStart="@+id/login_pass"
-        android:layout_centerVertical="true"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:layout_above="@+id/login_button"
+        android:layout_alignLeft="@+id/login_pass"
+        android:layout_alignStart="@+id/login_pass"
+        android:layout_marginBottom="41dp" />
 
     <EditText
         android:id="@+id/login_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/login_email"
         android:hint="Password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_above="@+id/login_button"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_pass"
-        android:layout_centerHorizontal="true"
-        android:text="Login" />
+        android:text="Login"
+        android:layout_above="@+id/forgot_button"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/forgot_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot password?"
-        android:layout_below="@+id/login_button"
+        android:layout_above="@+id/register_button"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -48,23 +48,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:layout_below="@+id/forgot_button"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/login_button"
-        android:layout_alignStart="@+id/login_button" />
+        android:layout_alignStart="@+id/login_button"
+        android:layout_marginBottom="10dp" />
 
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyle"
-        android:visibility="gone"
-        android:indeterminate="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/login_pass"
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
-        android:layout_alignBottom="@+id/login_pass"
+        android:layout_toEndOf="@+id/login_email"
         android:layout_toRightOf="@+id/login_email"
-        android:layout_toEndOf="@+id/login_email" />
+        android:indeterminate="true"
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/remember_CheckBox"

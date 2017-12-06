@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
                     ArrayList<String> detailList = new ArrayList<>();
 
                     GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync((SearchActivity)
-                            getActivity(), detailList);
+                            getActivity());
                     detailsApiTask.execute(marketid);
 
 
