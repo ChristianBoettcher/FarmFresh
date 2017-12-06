@@ -1,6 +1,5 @@
 package group3.tcss450.uw.edu.farmfresh;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,21 +16,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
+import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
+import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
 import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Activity for search by zip codes (main page of app).
@@ -42,9 +39,9 @@ public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchFragment.OnFragmentInteractionListener{
 
-    private UserDB userDB;
-
-    private final String[] filters = {"", ""};
+    private ListDB mMarketDB;
+    private ArrayList<String> marketList;
+    private HashMap<String, Integer> marketMap;
 
     /**
      *Initializes this activity with SearchFragment.
@@ -53,10 +50,6 @@ public class SearchActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_container, new SearchFragment())
-                .commit();
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,6 +71,28 @@ public class SearchActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (mMarketDB == null) {
+            mMarketDB = new ListDB(this);
+        }
+        SearchFragment sf = new SearchFragment();
+        List<ListEntry> marketEntries = mMarketDB.getList();
+        marketList = new ArrayList<String>();
+        marketMap = new HashMap<String, Integer>();
+        for (ListEntry market : marketEntries) {
+            marketList.add(market.getMarketName());
+            marketMap.put(market.getMarketName(), market.getMarketId());
+            Log.d("MARKET LIST TEST", market.getMarketName());
+        }
+
+        Bundle args = new Bundle();
+        args.putStringArrayList(getString(R.string.MARKET_LIST), marketList);
+        args.putSerializable(getString(R.string.MARKET_MAP), marketMap);
+        sf.setArguments(args);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_container, sf)
+                .commit();
     }
 
     /**
@@ -136,8 +151,6 @@ public class SearchActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-        //String[] filters = {"", ""};
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -159,9 +172,6 @@ public class SearchActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("SQLITE", 1);
             startActivity(intent);
-        } else if (id == R.id.filters_item) {
-
-            showFilters();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -176,43 +186,22 @@ public class SearchActivity extends AppCompatActivity
     public void searchZip() {
         final ListView list = (ListView) findViewById(R.id.search_list);
         EditText zipcode = (EditText) findViewById(R.id.search_text);
-        final Map<String, String> map = new HashMap<>();
-        ArrayList<String> itemList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                R.layout.list_view_layout, R.id.custom_text_view, itemList);
 
-        list.setAdapter(adapter);
-        GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map, filters);
+        GetAPIAsync apiTask = new GetAPIAsync(this, marketList, marketMap);
         apiTask.execute(zipcode.getText().toString());
 
-        final SearchActivity activity = this;
+    }
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String marketname = (String) list.getItemAtPosition(position);
-                String marketid = map.get(marketname);
-                Log.d("YOU SELECTED ITEM: " + marketname, "YOU SELECTED ITEM: " + marketid);
-
-                //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
-
-                ArrayList<String> detailList = new ArrayList<>();
-
-                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(activity, detailList);
-                detailsApiTask.execute(marketid);
-
-
-                FarmDetailsFragment fdg = new FarmDetailsFragment();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_container, fdg)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
+    public void saveMarketList(ArrayList<String> marketList, Map<String, Integer> map) {
+        if (mMarketDB == null) {
+            mMarketDB = new ListDB(this);
+        }
+        this.marketList = marketList;
+        this.marketMap = marketMap;
+        mMarketDB.clearList();
+        for (String market : marketList) {
+            mMarketDB.insertMarket(market, map.get(market));
+        }
     }
 
     /*public void farmDetails(String market) {
@@ -224,30 +213,4 @@ public class SearchActivity extends AppCompatActivity
         GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(this, detailsAdapter, detailsItemList);
         detailsApiTask.execute(market);
     }*/
-
-    private void showFilters() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Filters");
-
-        LinearLayout alertLayout = new LinearLayout(this);
-        alertLayout.setOrientation(LinearLayout.VERTICAL);
-
-        final EditText productsText = new EditText(this);
-
-        final EditText datesText = new EditText(this);
-
-        alertLayout.addView(productsText);
-        alertLayout.addView(datesText);
-
-        alert.setView(alertLayout);
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                filters[0] = productsText.getText().toString();
-                filters[1] = datesText.getText().toString();
-            }
-        });
-        alert.show();
-
-    }
 }

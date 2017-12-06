@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -14,15 +16,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
 
-import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_LINK;
 
 /**
@@ -46,25 +47,17 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     private ArrayList<String> itemList;
 
-    private Map<String, String> myMap;
-
-    private final String[] myFilters;
+    private Map<String, Integer> myMap;
 
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
      * @param activity SearchActivity
-     * @param adapter Populates the list.
-     * @param itemList List of Markets.
      */
-    public GetAPIAsync(SearchActivity activity,
-                       ArrayAdapter<String> adapter, ArrayList<String> itemList,
-                       Map<String, String> map, String[] theFilters) {
+    public GetAPIAsync(SearchActivity activity, ArrayList<String> list, HashMap<String, Integer> map) {
         this.activity = activity;
-        this.itemList = itemList;
-        this.adapter = adapter;
+        this.itemList = list;
         this.myMap = map;
-        this.myFilters = theFilters;
     }
 
     /**
@@ -114,25 +107,29 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
             return;
         } else {
             try {
-
+                Log.d("MARKET_NAME", "SEARCH");
                 JSONObject js_result = new JSONObject(response);
                 JSONArray js_array = new JSONArray(js_result.getString("results"));
-
+                final ListView list = (ListView) activity.findViewById(R.id.search_list);
+                myMap.clear();
+                itemList.clear();
                 for(int i = 0; i < js_array.length(); i++){
                     JSONObject obj = js_array.getJSONObject(i);
-                    String id = obj.getString("id");
-                    String market_name = obj.getString("marketname");
+
+                    Integer id = obj.getInt("id");
+                    String market_name=obj.getString("marketname");
+                    Log.d("MARKET_NAME", market_name);
                     itemList.add(market_name);
                     myMap.put(market_name, id);
                 }
+                activity.saveMarketList(itemList, myMap);
+                ArrayAdapter<String> adapter = (ArrayAdapter<String>) list.getAdapter();
                 adapter.notifyDataSetChanged();
             } catch (Exception ex) {
                 //not JSON RETURNED
             }
         }
     }
-
-
 
     /**
      * Prepares thread.
