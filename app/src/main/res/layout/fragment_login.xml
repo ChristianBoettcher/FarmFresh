@@ -66,5 +66,17 @@
         android:layout_toRightOf="@+id/login_email"
         android:layout_toEndOf="@+id/login_email" />
 
+    <CheckBox
+        android:id="@+id/remember_CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/login_button"
+        android:layout_alignBottom="@+id/login_button"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/login_button"
+        android:layout_toRightOf="@+id/login_button"
+        android:text="Remember Me" />
+
 
 </RelativeLayout>

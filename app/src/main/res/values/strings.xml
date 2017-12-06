@@ -32,6 +32,8 @@
     <string name="TABLE_NAME2">FarmFreshList</string>
 
 
+    <string name="LOGGED_OUT">LOGGEDOUT</string>
+
     <string name="CREATE_FARMFRESH_SQL">
     CREATE TABLE IF NOT EXISTS FarmFreshUsers
     (username VARCHAR(24),

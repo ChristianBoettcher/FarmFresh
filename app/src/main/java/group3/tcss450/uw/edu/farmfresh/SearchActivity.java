@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,18 +154,24 @@ public class SearchActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.logout) {
+            /*Bundle args = new Bundle();
+            args.putSerializable(getString(R.string.DB_NAME),
+                    (Serializable) userDB.getUser());
+            args.putSerializable(getString(R.string.LOGGED_OUT), true);
 
-        } else if (id == R.id.nav_slideshow) {
+            LoginFragment lf = new LoginFragment();
+            lf.setArguments(args);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, lf)
+                    .commit();*/
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+            //startActivity(new Intent(this, LoginActivity.class));
 
-        } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("SQLITE", 1);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,7 +195,9 @@ public class SearchActivity extends AppCompatActivity
         GetAPIAsync apiTask = new GetAPIAsync(this, adapter, itemList, map);
         apiTask.execute(zipcode.getText().toString());
 
-        list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        final SearchActivity activity = this;
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -198,9 +207,17 @@ public class SearchActivity extends AppCompatActivity
 
                 //SearchActivity.this.setContentView(R.layout.fragment_farm_details);
 
+                ArrayList<String> detailList = new ArrayList<>();
+
+                GetAPIDetailsAsync detailsApiTask = new GetAPIDetailsAsync(activity, detailList);
+                detailsApiTask.execute(marketid);
+
+
+                FarmDetailsFragment fdg = new FarmDetailsFragment();
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_container, new FarmDetailsFragment())
+                        .replace(R.id.main_container, fdg)
                         .addToBackStack(null)
                         .commit();
 
