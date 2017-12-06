@@ -1,5 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh.handler;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +16,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
 import group3.tcss450.uw.edu.farmfresh.LoginActivity;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.ChangePassFragment;
 import group3.tcss450.uw.edu.farmfresh.LoginFragment;
@@ -69,7 +68,8 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
      */
     private Boolean forgot;
 
-    private UserDB userDB;
+
+    private SharedPreferences mpref;
 
     /**
      * Construct ConfirmPostHandler object.
@@ -81,14 +81,14 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
      * @param name user name.
      */
     public ConfirmPinPostAsync(LoginActivity activity, PostParams params, String email,
-                               String pass, String name, boolean forgot, UserDB userDB) {
+                               String pass, String name, boolean forgot, SharedPreferences mpref) {
         this.activity = activity;
         this.params = params;
         this.email = email;
         this.pass = pass;
         this.name = name;
         this.forgot = forgot;
-        this.userDB = userDB;
+        this.mpref = mpref;
     }
 
     /**
@@ -209,11 +209,14 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
 
             //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
-            activity.saveToSqlite(email, pass, false);
             Bundle args = new Bundle();
             //args.putSerializable(activity.getString(R.string.email_key), email);
-            args.putSerializable(activity.getString(R.string.DB_NAME),
-                    (Serializable) userDB.getUser());
+
+            activity.saveToSharedPrefs(email, pass, 0);
+
+            args.putString(activity.getString(R.string.SAVEDNAME), mpref.getString(activity.getString(R.string.SAVEDNAME), ""));
+            args.putString(activity.getString(R.string.SAVEDPASS), mpref.getString(activity.getString(R.string.SAVEDPASS), ""));
+            args.putInt(activity.getString(R.string.SAVEDAUTO), mpref.getInt(activity.getString(R.string.SAVEDAUTO), 0));
             args.putSerializable("LOGIN_MESSAGE", "You have successfully registered.");
             LoginFragment lf = new LoginFragment();
             lf.setArguments(args);

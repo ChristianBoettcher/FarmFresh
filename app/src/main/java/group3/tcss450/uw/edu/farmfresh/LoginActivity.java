@@ -1,5 +1,7 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,8 +20,6 @@ import group3.tcss450.uw.edu.farmfresh.handler.LoginPostAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.PostHandlerNoReturnAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.RegistrationRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.SendEmailPostAsync;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CHANGE_PASS_URL;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     RegisterFragment.OnFragmentInteractionListener, PinFragment.OnFragmentInteractionListener,
     ChangePassFragment.OnFragmentInteractionListener {
 
-    private UserDB userDB;
+    private SharedPreferences mPrefs;
 
     /**
      *Initializes LoginActivity with LoginFragment.
@@ -46,23 +46,22 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         if (savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
-                if (userDB == null) {
-                    userDB = new UserDB(this);
-                }
-
-                Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
-                Log.d("SQLITE INTENT", "" + loggedout);
-
-                if (loggedout == 1) {
-                    UserEntry user = userDB.getUser();
-
-                    saveToSqlite(user.getUsername(), user.getPassword(), false);
-                }
+                mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
+                String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
+                Integer auto = mPrefs.getInt(getString(R.string.SAVEDAUTO), 0);
 
                 Bundle args = new Bundle();
-                args.putSerializable(getString(R.string.DB_NAME),
-                        (Serializable) userDB.getUser());
+                args.putString(getString(R.string.SAVEDNAME), username);
+                args.putString(getString(R.string.SAVEDPASS), password);
+                args.putInt(getString(R.string.SAVEDAUTO), auto);
                 args.putSerializable("LOGIN_MESSAGE", "");
+
+                Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
+
+                if (loggedout == 1) {
+                    mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), 0).apply();
+                }
 
                 LoginFragment lf = new LoginFragment();
                 lf.setArguments(args);
@@ -100,9 +99,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
-
+            Integer autoInt = 0;
+            if (auto.isChecked())
+                autoInt = 1;
             LoginPostAsync saveInfoTask = new LoginPostAsync(this, email_text.getText().toString(),
-                    pass_text.getText().toString(), auto.isChecked());
+                    pass_text.getText().toString(), autoInt, mPrefs);
             HashMap<String, String> params = new HashMap<>();
             params.put("user", email_text.getText().toString());
             params.put("pass", pass_text.getText().toString());
@@ -190,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             PostParams pm = new PostParams(STORE_ACC_URL, params);
 
             ConfirmPinPostAsync confirmPin = new ConfirmPinPostAsync(this, pm, email, pass,
-                    name, forgot, userDB);
+                    name, forgot, mPrefs);
             confirmPin.execute();
             
         }
@@ -237,15 +238,13 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             saveInfoTask.execute(pm);
             //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
-            if (userDB == null) {
-                userDB = new UserDB(this);
-            }
-            saveToSqlite(email, new_pass.getText().toString(), false);
-
+            saveToSharedPrefs(email, new_pass.toString(), 0);
 
             Bundle args = new Bundle();
-            args.putSerializable(getString(R.string.DB_NAME),
-                    (Serializable) userDB.getUser());
+
+            args.putString(getString(R.string.SAVEDNAME), mPrefs.getString(getString(R.string.SAVEDNAME), ""));
+            args.putString(getString(R.string.SAVEDPASS), mPrefs.getString(getString(R.string.SAVEDPASS), ""));
+            args.putInt(getString(R.string.SAVEDAUTO), mPrefs.getInt(getString(R.string.SAVEDAUTO), 0));
             args.putSerializable("LOGIN_MESSAGE", "You have successfully changed your password.");
             LoginFragment lf = new LoginFragment();
             lf.setArguments(args);
@@ -256,10 +255,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         }
     }
 
-    public void saveToSqlite(String user, String pass, boolean auto) {
-        if (userDB == null) {
-            userDB = new UserDB(this);
-        }
-        userDB.insertUser(user, pass, auto);
+    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+        mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
+        mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
     }
+
 }

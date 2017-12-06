@@ -29,7 +29,6 @@ import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserDB;
 
 /**
  * Activity for search by zip codes (main page of app).
