@@ -1,6 +1,7 @@
 package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,18 +41,21 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
 
     String username;
     String pass;
-    boolean auto;
+    Integer auto;
+    SharedPreferences mpref;
 
     /**
      * Constructs LoginPostAsync Object.
      * Initializes:
      * @param activity LoginActivity.
      */
-    public LoginPostAsync(LoginActivity activity, String username, String pass, boolean auto) {
+    public LoginPostAsync(LoginActivity activity, String username, String pass, Integer auto,
+                          SharedPreferences mpref) {
         this.activity = activity;
         this.username = username;
         this.pass = pass;
         this.auto = auto;
+        this.mpref = mpref;
     }
 
     /**
@@ -124,8 +128,8 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
                     //success
 
 
-                    activity.saveToSqlite(username, pass, auto);
-
+                    //activity.saveToSqlite(username, pass, auto);
+                    activity.saveToSharedPrefs(username, pass, auto);
                     ((EditText)activity.findViewById(R.id.login_pass)).setText("");
                     activity.startActivity(new Intent(activity, SearchActivity.class));
                 } else if (code == 200) {

@@ -2,6 +2,7 @@ package group3.tcss450.uw.edu.farmfresh;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,9 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
-
-
 /**
  * Login Fragment that holds Login Fragment page.
  * Initial page of the app.
@@ -24,6 +22,7 @@ import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences mPrefs;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -40,16 +39,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         if (getArguments() != null) {
-            /*String user = getArguments().getString(getString(R.string.email_key));
-            String message = getArguments().getString("LOGIN_MESSAGE");
-            EditText email = (EditText) getActivity().findViewById(R.id.login_email);
-            email.setText(user);
-            Toast.makeText(getActivity(),
-                    message,
-                    Toast.LENGTH_SHORT).show();
-                    */
-
+            String user = getArguments().getString(getString(R.string.SAVEDNAME));
+            String pass = getArguments().getString(getString(R.string.SAVEDPASS));
+            Integer auto = getArguments().getInt(getString(R.string.SAVEDAUTO));
             String message = getArguments().getString("LOGIN_MESSAGE");
             if (!message.isEmpty() && message != null) {
                 Toast.makeText(getActivity(),
@@ -57,15 +51,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         Toast.LENGTH_SHORT).show();
             }
 
-           UserEntry user =
-                    (UserEntry) getArguments().getSerializable(
-                            getString(R.string.DB_NAME));
 
             EditText email = (EditText) getActivity().findViewById(R.id.login_email);
             EditText password = (EditText) getActivity().findViewById(R.id.login_pass);
-            email.setText(user.getUsername());
-            if (user.getAutoLogin()) {
-                password.setText(user.getPassword());
+            email.setText(user);
+            if (auto == 1) {
+                password.setText(pass);
                 mListener.loginManager();
             }
         }

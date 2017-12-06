@@ -31,6 +31,10 @@
     <string name="DB_NAME2">FarmFresh2.db</string> 
     <string name="TABLE_NAME2">FarmFreshList</string>
 
+    <string name="SHARED_PREFS">edu.uw.tcss450.PREFS</string>
+    <string name="SAVEDNAME">SAVED_USERNAME</string>
+    <string name="SAVEDPASS">SAVED_PASS</string>
+    <string name="SAVEDAUTO">SAVED_AUTO</string>
 
     <string name="LOGGED_OUT">LOGGEDOUT</string>
 

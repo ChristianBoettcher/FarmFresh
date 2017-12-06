@@ -21,7 +21,6 @@ import java.util.List;
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
-import group3.tcss450.uw.edu.farmfresh.sqlite.UserEntry;
 
 import static android.R.id.list;
 
@@ -66,18 +65,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             marketMap = (HashMap<String,Integer>)
                     getArguments().getSerializable(getString(R.string.MARKET_MAP));
 
+            /*
             for (ListEntry market : marketEntries) {
                 marketList.add(market.getMarketName());
                 marketMap.put(market.getMarketName(), market.getMarketId());
                 Log.d("MARKET LIST TEST", market.getMarketName());
             }
-
-            for (ListEntry market : marketEntries) {
-                marketList.add(market.getMarketName());
-                marketMap.put(market.getMarketName(), market.getMarketId());
-                Log.d("MARKET LIST TEST", market.getMarketName());
-            }
-
+            */
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                     R.layout.list_view_layout, R.id.custom_text_view, marketList);
