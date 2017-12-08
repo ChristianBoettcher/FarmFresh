@@ -105,7 +105,19 @@ public class SearchActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            Log.d("POP", "POPOPO");
+
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() == 0) {
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+            } else {
+                super.onBackPressed();
+            }
+
         }
     }
 
@@ -171,6 +183,7 @@ public class SearchActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("SQLITE", 1);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

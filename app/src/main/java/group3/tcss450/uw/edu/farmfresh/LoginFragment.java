@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
         mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         if (getArguments() != null) {
             String user = getArguments().getString(getString(R.string.SAVEDNAME));

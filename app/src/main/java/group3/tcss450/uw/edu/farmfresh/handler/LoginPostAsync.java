@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -131,7 +132,10 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
                     //activity.saveToSqlite(username, pass, auto);
                     activity.saveToSharedPrefs(username, pass, auto);
                     ((EditText)activity.findViewById(R.id.login_pass)).setText("");
-                    activity.startActivity(new Intent(activity, SearchActivity.class));
+                    Intent intent = (new Intent(activity, SearchActivity.class));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                    activity.finish();
                 } else if (code == 200) {
                     //wrong login
                 } else if (code == 201){
