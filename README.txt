@@ -1,11 +1,14 @@
 TCSS 450: Mobile Application Programming, Autumn 2017
 
-Programming Project: Deliverable 1
+Programming Project: Deliverable 2
 
 Group 3: Farm Fresh
 Name: Alisher Baimenov
       Christian Boettcher
       Doseon Kim
+
+Notes:
+https://docs.google.com/document/d/1bEI2MWY_DPKpuJ4Bm-O2y6ho3lotgZ9uys179zqD-VY/edit
 
 Overview:
 	
