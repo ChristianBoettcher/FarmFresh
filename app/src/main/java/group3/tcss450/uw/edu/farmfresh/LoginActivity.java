@@ -58,11 +58,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 args.putInt(getString(R.string.SAVEDAUTO), auto);
                 args.putSerializable("LOGIN_MESSAGE", "");
 
-                Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
+                //Integer loggedout = getIntent().getIntExtra("SQLITE", 0);
 
-                if (loggedout == 1) {
+                /*if (loggedout == 1) {
                     mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), 0).apply();
-                }
+                }*/
 
                 LoginFragment lf = new LoginFragment();
                 lf.setArguments(args);
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         LoginRequirementsHandler logHandle= new LoginRequirementsHandler(email_text, pass_text);
         if (logHandle.checkLoginErrors()) {
+
             Integer autoInt = 0;
             if (auto.isChecked())
                 autoInt = 1;

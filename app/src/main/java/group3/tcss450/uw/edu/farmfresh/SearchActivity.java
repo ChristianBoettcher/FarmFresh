@@ -1,6 +1,8 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -41,6 +43,7 @@ public class SearchActivity extends AppCompatActivity
     private ListDB mMarketDB;
     private ArrayList<String> marketList;
     private HashMap<String, Integer> marketMap;
+    private SharedPreferences mPrefs;
 
     /**
      *Initializes this activity with SearchFragment.
@@ -70,6 +73,8 @@ public class SearchActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
         if (mMarketDB == null) {
             mMarketDB = new ListDB(this);
@@ -166,22 +171,12 @@ public class SearchActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.logout) {
-            /*Bundle args = new Bundle();
-            args.putSerializable(getString(R.string.DB_NAME),
-                    (Serializable) userDB.getUser());
-            args.putSerializable(getString(R.string.LOGGED_OUT), true);
-
-            LoginFragment lf = new LoginFragment();
-            lf.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentContainer, lf)
-                    .commit();*/
-
-
-            //startActivity(new Intent(this, LoginActivity.class));
 
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("SQLITE", 1);
+            //intent.putExtra("SQLITE", 1);
+            String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
+            String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
+            saveToSharedPrefs(username, password, 0);
             startActivity(intent);
             finish();
         }
@@ -214,6 +209,12 @@ public class SearchActivity extends AppCompatActivity
         for (String market : marketList) {
             mMarketDB.insertMarket(market, map.get(market));
         }
+    }
+
+    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+        mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
+        mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
     }
 
     /*public void farmDetails(String market) {

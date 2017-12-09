@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     private SharedPreferences mPrefs;
+    private CheckBox auto_checkbox;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -62,7 +64,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             email.setText(user);
             if (auto == 1) {
                 password.setText(pass);
+                auto_checkbox.setChecked(true);
                 mListener.loginManager();
+            } else {
+                auto_checkbox.setChecked(false);
             }
         }
     }
@@ -87,6 +92,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         b.setOnClickListener(this);
         b = (Button) v.findViewById(R.id.forgot_button);
         b.setOnClickListener(this);
+
+        auto_checkbox = (CheckBox) v.findViewById(R.id.remember_CheckBox);
         return v;
     }
 
