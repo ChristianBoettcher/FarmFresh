@@ -36,6 +36,8 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
      */
     private SearchActivity activity;
 
+    private String[] myFilters;
+
 
 
     /**
@@ -44,7 +46,6 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
      */
     public GetAPIDetailsAsync(SearchActivity activity) {
         this.activity = activity;
-
     }
 
 
