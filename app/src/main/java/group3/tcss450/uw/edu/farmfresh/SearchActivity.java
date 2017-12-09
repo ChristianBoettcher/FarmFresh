@@ -16,23 +16,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
-import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
 

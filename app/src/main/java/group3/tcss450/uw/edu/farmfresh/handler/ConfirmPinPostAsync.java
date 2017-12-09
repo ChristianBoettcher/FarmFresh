@@ -3,7 +3,6 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -70,6 +69,7 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
     private Boolean forgot;
 
 
+    //Shared Preferences for username, autologin feature.
     private SharedPreferences mpref;
 
     /**

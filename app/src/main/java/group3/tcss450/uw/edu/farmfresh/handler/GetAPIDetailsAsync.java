@@ -5,20 +5,15 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import group3.tcss450.uw.edu.farmfresh.R;
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
@@ -26,6 +21,7 @@ import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 
 /**
+ * Async task that gets the details of the market through market ID using API.
  * Created by baimenov on 12/2/2017.
  */
 
@@ -36,6 +32,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
      */
     private SearchActivity activity;
 
+    //Filters to check for in products.
     private String[] myFilters;
 
 
@@ -49,6 +46,11 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
     }
 
 
+    /**
+     * Background task that gets the details of a specific market from the API.
+     * @param details the market ID to search for when searching API.
+     * @return JSON String of the market details.
+     */
     @Override
     protected String doInBackground(String... details) {
         String response = "";
@@ -74,6 +76,11 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
         return response;
     }
 
+    /**
+     * Execution after the background task is complete, filters through the JSON and displays
+     * the text on the current fragment.
+     * @param response The JSON string response sent back from the API.
+     */
     @Override
     protected void onPostExecute(String response) {
 
@@ -89,8 +96,6 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
                 String googleLink = (String) details.get("GoogleLink");
                 String products = (String) details.get("Products");
                 String schedule = (String) details.get("Schedule");
-
-
 
                 TextView addressTV = (TextView) activity.findViewById(R.id.address_text_view);
                 addressTV.setText("Address: " + address);

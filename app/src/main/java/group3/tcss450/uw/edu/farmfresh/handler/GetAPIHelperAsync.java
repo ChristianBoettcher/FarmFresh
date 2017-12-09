@@ -20,24 +20,38 @@ import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 
 /**
+ * Async task helper that runs along details Async for filter purposes.
  * Created by baimenov on 12/5/2017.
  */
 
-public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
+class GetAPIHelperAsync extends AsyncTask<Void, Void, Void>{
 
-    String[] myFilters;
+    //Filters to look for when updating the results.
+    private String[] myFilters;
 
-    Map<String, Integer> myMap;
+    //Map of market name and corresponding market id.
+    private Map<String, Integer> myMap;
 
-    ArrayAdapter<String> myAdapter;
+    //The adapter that is connected to the text view list.
+    private ArrayAdapter<String> myAdapter;
 
-    ArrayList<String> myItemList;
+    // The list that is used by the adapter to update text view list.
+    private ArrayList<String> myItemList;
 
-    SearchActivity myActivity;
+    //Search Activity that calls this task.
+    private SearchActivity myActivity;
 
-    public GetAPIHelperAsync(String[] theFilters, Map<String, Integer> theMap,
-                             ArrayAdapter<String> theAdapter, ArrayList<String> theItemList,
-                             SearchActivity theActivity) {
+    /**
+     * Constructor of the task to get details for items to filter through.
+     * @param theFilters list of filters to check for in the list of markets and products.
+     * @param theMap the map of market name and corresponding market id.
+     * @param theAdapter the adapter to update the current list view on display.
+     * @param theItemList the list that updates the name of markets.
+     * @param theActivity the Search activity that calls this task.
+     */
+    GetAPIHelperAsync(String[] theFilters, Map<String, Integer> theMap,
+                      ArrayAdapter<String> theAdapter, ArrayList<String> theItemList,
+                      SearchActivity theActivity) {
         myItemList = theItemList;
         myFilters = theFilters;
         myMap = theMap;
@@ -45,8 +59,14 @@ public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
         myActivity = theActivity;
     }
 
+    /**
+     * Background work that iterates through all the market names in order to filter through them.
+     * Calls for details of all markets that are listed in the zipcode and filters through the list
+     * of filters.
+     * @return null, nothing to return.
+     */
     @Override
-    protected Void doInBackground(String... details) {
+    protected Void doInBackground(Void... details) {
         String response = "";
         HttpURLConnection urlConnection = null;
         Iterator<Map.Entry<String, Integer>> it = myMap.entrySet().iterator();
@@ -69,7 +89,7 @@ public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
                 }
                 response = "";
             } catch (Exception ex) {
-
+                //Catch error.
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -80,7 +100,10 @@ public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
     }
 
 
-
+    /**
+     * Post execution of the background task. Updates the current display of available markets.
+     * @param voids empty void parameter.
+     */
     @Override
     protected void onPostExecute(Void voids) {
         final ListView lv = (ListView) myActivity.findViewById(R.id.search_list);
@@ -101,6 +124,10 @@ public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
         myActivity.findViewById(R.id.search_button).setEnabled(false);
     }
 
+    /**
+     * Updates the progress bar.
+     * @param values the current value of progress.
+     */
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);

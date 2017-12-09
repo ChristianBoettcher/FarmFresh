@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ import java.util.List;
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
-
-import static android.R.id.list;
 
 
 /**

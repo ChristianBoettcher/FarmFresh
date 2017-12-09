@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
@@ -47,8 +45,10 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     private ArrayList<String> itemList;
 
+    // Map of the markets to store the market ID for detail search.
     private Map<String, Integer> myMap;
 
+    //Filters of products to apply.
     private String[] myFilters;
 
     /**
