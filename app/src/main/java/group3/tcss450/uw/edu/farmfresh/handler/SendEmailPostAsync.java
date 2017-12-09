@@ -113,8 +113,8 @@ public class SendEmailPostAsync extends AsyncTask<Void, Void, String> {
                 if (code == 200) {
                     activity.findViewById(R.id.register_loading).setVisibility(View.GONE);
                     activity.findViewById(R.id.register_submit).setEnabled(true);
-                    Toast.makeText(activity.getApplicationContext(),
-                            "Username already exists.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity.getApplicationContext(),
+                    //        "Username already exists.", Toast.LENGTH_LONG).show();
                     email_text.setError("Email already exists.");
                     return;
                 } else if (code == 300){

@@ -161,13 +161,13 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
                     //CORRECT PIN
                     correctPinEntered();
                 } else if (code == 200) {
-                    Toast.makeText(activity.getApplicationContext(),
-                            "No pin was found for that username.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity.getApplicationContext(),
+                    //        "No pin was found for that username.", Toast.LENGTH_LONG).show();
                     pin_text.setError("No pin for email.");
                     return;
                 } else if (code == 201) {
-                    Toast.makeText(activity.getApplicationContext(),
-                            "Incorrect pin, please try again.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity.getApplicationContext(),
+                     //       "Incorrect pin, please try again.", Toast.LENGTH_LONG).show();
                     pin_text.setError("Incorrect pin.");
                     return;
                 } else {

@@ -136,8 +136,8 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
                 } else if (code == 201){
                     //wrong pass
                 }
-                Toast.makeText(activity.getApplicationContext(),
-                        message, Toast.LENGTH_LONG).show();
+                //Toast.makeText(activity.getApplicationContext(),
+                //        message, Toast.LENGTH_LONG).show();
                 return;
             } catch (Exception ex) {
                 //not JSON RETURNED

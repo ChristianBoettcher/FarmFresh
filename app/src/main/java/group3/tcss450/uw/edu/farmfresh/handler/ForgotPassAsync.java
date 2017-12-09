@@ -112,8 +112,8 @@ public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
                     if (code == 300) {
                         //activity.findViewById(R.id.register_loading).setVisibility(View.GONE);
                         //activity.findViewById(R.id.register_submit).setEnabled(true);
-                        Toast.makeText(activity.getApplicationContext(),
-                                "Username does not exist.", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(activity.getApplicationContext(),
+                        //        "Username does not exist.", Toast.LENGTH_LONG).show();
                         email_text.setError("Email does not exist.");
                         return;
                     } else if (code == 200){
