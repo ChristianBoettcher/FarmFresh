@@ -1,10 +1,8 @@
 package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,11 +16,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.R;
+import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_LINK;
 
@@ -111,7 +108,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
             return;
         } else {
             try {
-                Log.d("MARKET_NAME", "SEARCH");
+                //Log.d("MARKET_NAME", "SEARCH");
                 JSONObject js_result = new JSONObject(response);
                 JSONArray js_array = new JSONArray(js_result.getString("results"));
                 final ListView list = (ListView) activity.findViewById(R.id.search_list);
@@ -125,7 +122,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
 
                     Integer id = obj.getInt("id");
                     String market_name=obj.getString("marketname");
-                    Log.d("MARKET_NAME", market_name);
+                    //Log.d("MARKET_NAME", market_name);
                     market_name = market_name.replaceFirst(" ", "(mi) ");
                     itemList.add(market_name);
                     myMap.put(market_name, id);

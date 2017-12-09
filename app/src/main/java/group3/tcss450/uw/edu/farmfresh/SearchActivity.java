@@ -5,34 +5,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import group3.tcss450.uw.edu.farmfresh.handler.GetAPIAsync;
-import group3.tcss450.uw.edu.farmfresh.handler.GetAPIDetailsAsync;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListDB;
 import group3.tcss450.uw.edu.farmfresh.sqlite.ListEntry;
 
@@ -92,7 +85,7 @@ public class SearchActivity extends AppCompatActivity
         for (ListEntry market : marketEntries) {
             marketList.add(market.getMarketName());
             marketMap.put(market.getMarketName(), market.getMarketId());
-            Log.d("MARKET LIST TEST", market.getMarketName());
+            //Log.d("MARKET LIST TEST", market.getMarketName());
         }
 
         Bundle args = new Bundle();
@@ -117,7 +110,7 @@ public class SearchActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //super.onBackPressed();
-            Log.d("POP", "POPOPO");
+            //Log.d("POP", "POPOPO");
 
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() == 0) {
@@ -166,7 +159,7 @@ public class SearchActivity extends AppCompatActivity
 
     /**
      * Handles selection of one of the buttons
-     * in drawer menu.
+     * in drawer menu: logout and filters.
      * @param item Selected MenuItem.
      * @return true.
      */

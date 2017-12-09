@@ -2,7 +2,6 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,9 +18,9 @@ import java.net.URL;
 import java.util.HashMap;
 
 import group3.tcss450.uw.edu.farmfresh.LoginActivity;
-import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.PinFragment;
 import group3.tcss450.uw.edu.farmfresh.R;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CHECK_USER_URL;
 import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
@@ -88,7 +87,7 @@ public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
                     urlConnection.disconnect();
             }
             response = response;
-            Log.d("POST_RESPONse", response);
+            //Log.d("POST_RESPONse", response);
             return response;
         }
 
@@ -118,7 +117,7 @@ public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
                         email_text.setError("Email does not exist.");
                         return;
                     } else if (code == 200){
-                        Log.d("forgot pass handler: ", "user exists");
+                        //Log.d("forgot pass handler: ", "user exists");
                          MoveToPinHandler goToPinTask =
                                 new MoveToPinHandler();
                         goToPinTask.execute(params);
@@ -173,7 +172,7 @@ public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
                     if (urlConnection != null)
                         urlConnection.disconnect();
                 }
-                Log.d("POST_RESPONse", response);
+                //Log.d("POST_RESPONse", response);
                 return response;
             }
 
@@ -198,7 +197,7 @@ public class ForgotPassAsync extends AsyncTask<Void, Void, String> {
                         EditText email_text = (EditText) activity.findViewById(R.id.login_email);
 
                         if (code == 300) {
-                            Log.d("TEST PIN", pin);
+                            //Log.d("TEST PIN", pin);
 
 
                             Bundle args = new Bundle();

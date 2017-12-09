@@ -4,21 +4,15 @@ import android.os.AsyncTask;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import group3.tcss450.uw.edu.farmfresh.R;
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
@@ -70,7 +64,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
                 urlConnection.disconnect();
             }
         }
-        Log.d("Details Response", response);
+        //Log.d("Details Response", response);
         return response;
     }
 
@@ -78,7 +72,7 @@ public class GetAPIDetailsAsync extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String response) {
 
         if (response.startsWith("Unable to")) {
-            Log.d("error","error DetailsAPI");
+            //Log.d("error","error DetailsAPI");
             return;
         } else {
             try {

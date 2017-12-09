@@ -3,9 +3,6 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,15 +15,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
 import group3.tcss450.uw.edu.farmfresh.LoginActivity;
+import group3.tcss450.uw.edu.farmfresh.R;
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
-import group3.tcss450.uw.edu.farmfresh.R;
 
 /**
  * Thread that logs in user to main page of the app.
@@ -60,7 +56,6 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
     }
 
     /**
-     * Runs in background.
      * Sends request to successfully log in user to the app.
      * @param params Parameters: URL, email, password.
      * @return response JSON String.
@@ -99,7 +94,7 @@ public class LoginPostAsync extends AsyncTask<PostParams, Integer, String>{
             if (urlConnection != null)
                 urlConnection.disconnect();
         }
-        Log.d("POST_RESPONse", response);
+        //Log.d("POST_RESPONse", response);
         return response;
     }
 

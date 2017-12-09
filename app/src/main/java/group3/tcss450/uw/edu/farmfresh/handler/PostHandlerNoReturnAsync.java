@@ -1,7 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -63,7 +62,7 @@ public class PostHandlerNoReturnAsync extends AsyncTask<PostParams, Void, String
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.d("POST_RESPONse", response);
+            //Log.d("POST_RESPONse", response);
             return response;
         }
 }

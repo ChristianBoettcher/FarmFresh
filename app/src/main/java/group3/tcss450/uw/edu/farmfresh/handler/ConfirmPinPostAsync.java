@@ -3,8 +3,6 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,11 +19,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import group3.tcss450.uw.edu.farmfresh.LoginActivity;
-import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.ChangePassFragment;
+import group3.tcss450.uw.edu.farmfresh.LoginActivity;
 import group3.tcss450.uw.edu.farmfresh.LoginFragment;
 import group3.tcss450.uw.edu.farmfresh.R;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CONFIRM_PIN_URL;
 import static group3.tcss450.uw.edu.farmfresh.util.Links.STORE_ACC_URL;
@@ -131,7 +129,7 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
             if (urlConnection != null)
                 urlConnection.disconnect();
         }
-        Log.d("POST_RESPONse", response);
+        //Log.d("POST_RESPONse", response);
         return response;
     }
 

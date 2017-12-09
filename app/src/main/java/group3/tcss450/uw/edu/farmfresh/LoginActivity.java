@@ -3,21 +3,18 @@ package group3.tcss450.uw.edu.farmfresh;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import group3.tcss450.uw.edu.farmfresh.handler.ConfirmPinPostAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.ForgotPassAsync;
-import group3.tcss450.uw.edu.farmfresh.handler.LoginRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.LoginPostAsync;
+import group3.tcss450.uw.edu.farmfresh.handler.LoginRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.PostHandlerNoReturnAsync;
 import group3.tcss450.uw.edu.farmfresh.handler.RegistrationRequirementsHandler;
 import group3.tcss450.uw.edu.farmfresh.handler.SendEmailPostAsync;
@@ -39,6 +36,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     /**
      *Initializes LoginActivity with LoginFragment.
+     * If user logged out last time with "Remember me"
+     * option checked then it will redirect automatically
+     * to SearchActivity.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,6 +257,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         }
     }
 
+    /**
+     * Saves user credentials to shared preferences.
+     * @param name username
+     * @param pass user password.
+     * @param auto
+     */
     public void saveToSharedPrefs(String name, String pass, Integer auto) {
         mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
         mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();

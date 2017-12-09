@@ -2,7 +2,6 @@ package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,10 +18,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 import group3.tcss450.uw.edu.farmfresh.LoginActivity;
 import group3.tcss450.uw.edu.farmfresh.PinFragment;
 import group3.tcss450.uw.edu.farmfresh.R;
+import group3.tcss450.uw.edu.farmfresh.util.PostParams;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.CHECK_USER_URL;
 import static group3.tcss450.uw.edu.farmfresh.util.PostParams.getPostDataString;
@@ -89,7 +88,7 @@ public class SendEmailPostAsync extends AsyncTask<Void, Void, String> {
                 urlConnection.disconnect();
         }
         response = response;
-        Log.d("POST_RESPONse", response);
+        //Log.d("POST_RESPONse", response);
         return response;
     }
 
@@ -184,7 +183,7 @@ public class SendEmailPostAsync extends AsyncTask<Void, Void, String> {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            Log.d("POST_RESPONse", response);
+            //Log.d("POST_RESPONse", response);
             return response;
         }
 
@@ -212,7 +211,7 @@ public class SendEmailPostAsync extends AsyncTask<Void, Void, String> {
                     EditText pass_text;
                     EditText name_text;
                     if (code == 300) {
-                        Log.d("TEST PIN", pin);
+                        //Log.d("TEST PIN", pin);
 
                         pass_text = (EditText) activity.findViewById(R.id.registration_pass);
                         name_text = (EditText) activity.findViewById(R.id.registration_name);

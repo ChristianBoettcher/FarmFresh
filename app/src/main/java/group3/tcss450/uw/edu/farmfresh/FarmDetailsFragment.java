@@ -1,18 +1,11 @@
 package group3.tcss450.uw.edu.farmfresh;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-
-import static android.R.id.list;
 
 
 /**
@@ -27,12 +20,19 @@ public class FarmDetailsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * Required empty constructor.
+     */
     public FarmDetailsFragment() {
         // Required empty public constructor
     }
 
 
-
+    /**
+     * Initializes the fragment with the given Bundle.
+     * @param savedInstanceState state of the Activity
+     *                           that called this Fragment.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +40,13 @@ public class FarmDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Sets up layout of fragmentDetails.
+     * @param inflater Layout inflater.
+     * @param container view group.
+     * @param savedInstanceState activity state.
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +56,7 @@ public class FarmDetailsFragment extends Fragment {
         return v;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -56,6 +64,7 @@ public class FarmDetailsFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
        }
     }
+
 
     @Override
     public void onDetach() {

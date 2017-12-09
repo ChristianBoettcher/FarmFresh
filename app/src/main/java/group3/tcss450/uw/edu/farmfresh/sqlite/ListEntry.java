@@ -5,8 +5,6 @@ package group3.tcss450.uw.edu.farmfresh.sqlite;
  */
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Encapsulates a tuple from the Color table.
