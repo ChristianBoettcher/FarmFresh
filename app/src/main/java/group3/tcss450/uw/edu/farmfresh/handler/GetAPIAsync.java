@@ -32,7 +32,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
     /**
      * SearchActivity.
      */
-    SearchActivity activity;
+    private SearchActivity activity;
 
     /**
      * ArrayAdapter to populate list of markets.
@@ -44,8 +44,10 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
      */
     private ArrayList<String> itemList;
 
+    // Map of the markets to store the market ID for detail search.
     private Map<String, Integer> myMap;
 
+    //Filters of products to apply.
     private String[] myFilters;
 
     /**
@@ -142,6 +144,7 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
             }
         }
     }
+    //
 
     /**
      * Prepares thread.

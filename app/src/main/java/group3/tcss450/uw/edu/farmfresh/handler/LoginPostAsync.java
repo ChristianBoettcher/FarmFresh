@@ -20,9 +20,9 @@ import java.net.URL;
 import java.util.HashMap;
 
 import group3.tcss450.uw.edu.farmfresh.LoginActivity;
-import group3.tcss450.uw.edu.farmfresh.R;
 import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 import group3.tcss450.uw.edu.farmfresh.util.PostParams;
+import group3.tcss450.uw.edu.farmfresh.R;
 
 /**
  * Thread that logs in user to main page of the app.
