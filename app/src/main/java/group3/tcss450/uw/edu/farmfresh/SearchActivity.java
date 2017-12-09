@@ -1,5 +1,6 @@
 package group3.tcss450.uw.edu.farmfresh;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,7 +18,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -41,6 +45,8 @@ public class SearchActivity extends AppCompatActivity
     private ListDB mMarketDB;
     private ArrayList<String> marketList;
     private HashMap<String, Integer> marketMap;
+
+    private String[] myFilters = {""};
 
     /**
      *Initializes this activity with SearchFragment.
@@ -105,19 +111,7 @@ public class SearchActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
-            Log.d("POP", "POPOPO");
-
-            FragmentManager manager = getSupportFragmentManager();
-            if (manager.getBackStackEntryCount() == 0) {
-                Intent a = new Intent(Intent.ACTION_MAIN);
-                a.addCategory(Intent.CATEGORY_HOME);
-                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(a);
-            } else {
-                super.onBackPressed();
-            }
-
+            super.onBackPressed();
         }
     }
 
@@ -183,7 +177,32 @@ public class SearchActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("SQLITE", 1);
             startActivity(intent);
-            finish();
+        } else if (id == R.id.filters_item) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            //alert.setTitle("Filters");
+
+
+            LinearLayout alertLayout = new LinearLayout(this);
+            alertLayout.setOrientation(LinearLayout.VERTICAL);
+
+            final TextView tv1 = new TextView(this);
+            tv1.setText("Enter Product");
+            tv1.setTextSize(20);
+            final EditText productFilter = new EditText(this);
+            productFilter.setText(myFilters[0]);
+
+            alertLayout.addView(tv1);
+            alertLayout.addView(productFilter);
+
+            alert.setView(alertLayout);
+
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    myFilters[0] = productFilter.getText().toString();
+                }
+            });
+            alert.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -199,7 +218,7 @@ public class SearchActivity extends AppCompatActivity
         final ListView list = (ListView) findViewById(R.id.search_list);
         EditText zipcode = (EditText) findViewById(R.id.search_text);
 
-        GetAPIAsync apiTask = new GetAPIAsync(this, marketList, marketMap);
+        GetAPIAsync apiTask = new GetAPIAsync(this, marketList, marketMap, myFilters);
         apiTask.execute(zipcode.getText().toString());
 
     }

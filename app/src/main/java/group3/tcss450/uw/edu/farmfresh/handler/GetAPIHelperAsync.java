@@ -1,16 +1,21 @@
 package group3.tcss450.uw.edu.farmfresh.handler;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+import group3.tcss450.uw.edu.farmfresh.R;
+import group3.tcss450.uw.edu.farmfresh.SearchActivity;
 
 import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
 
@@ -18,102 +23,86 @@ import static group3.tcss450.uw.edu.farmfresh.util.Links.API_DETAILS_LINK;
  * Created by baimenov on 12/5/2017.
  */
 
-public class GetAPIHelperAsync extends AsyncTask<String, Void, String>{
+public class GetAPIHelperAsync extends AsyncTask<String, Void, Void>{
 
     String[] myFilters;
 
-    String myID;
+    Map<String, Integer> myMap;
 
-    JSONArray myjs_array;
+    ArrayAdapter<String> myAdapter;
 
-    String returnValue = "1";
+    ArrayList<String> myItemList;
 
-    public GetAPIHelperAsync(String[] theFilters, String theID, JSONArray js_array) {
+    SearchActivity myActivity;
+
+    public GetAPIHelperAsync(String[] theFilters, Map<String, Integer> theMap,
+                             ArrayAdapter<String> theAdapter, ArrayList<String> theItemList,
+                             SearchActivity theActivity) {
+        myItemList = theItemList;
         myFilters = theFilters;
-        myID = theID;
-        myjs_array = js_array;
+        myMap = theMap;
+        myAdapter = theAdapter;
+        myActivity = theActivity;
     }
 
     @Override
-    protected String doInBackground(String... details) {
-
-        try {
-
-            for (int i = 0; i < myjs_array.length(); i++) {
-                JSONObject js_object = myjs_array.getJSONObject(i);
-
-                String id = js_object.getString("id");
-            }
-            //boolean toReturn = false;
-            String newResponse = "";
-            HttpURLConnection urlConnection = null;
+    protected Void doInBackground(String... details) {
+        String response = "";
+        HttpURLConnection urlConnection = null;
+        Iterator<Map.Entry<String, Integer>> it = myMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Integer> entry = it.next();
+            int id = entry.getValue();
             try {
-                URL urlObject = new URL(API_DETAILS_LINK + myID);
-
+                URL urlObject = new URL(API_DETAILS_LINK + id);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
-                Log.d("trying before ", "inputStream creation");
                 InputStream content = urlConnection.getInputStream();
-                Log.d("trying after ", "inputStream creation");
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                 String s = "";
-
                 while ((s = buffer.readLine()) != null) {
-                    newResponse += s;
+                    response += s;
                 }
-
-                if (newResponse.startsWith("Unable to")) {
-                    Log.d("error", "error DetailsAPI");
-                } else {
-                    if (filteredHelper(newResponse)) {
-                        return "1";
-                    } else {
-                        return "0";
-                    }
+                //Log.d("Your filter is: ", myFilters[0]);
+                if (!response.toLowerCase().contains(myFilters[0].toLowerCase())) {
+                    it.remove();
+                    myItemList.remove(entry.getKey());
                 }
+                response = "";
             } catch (Exception ex) {
-                Log.d("Something went wrong", "w/ inputStream");
-                Log.e("MYAPP", "exception", ex);
 
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
             }
-            return "0";
-        } catch (Exception ex) {
-
         }
-        return "0";
+        return null;
     }
 
-    private boolean filteredHelper(String newResponse) {
-        boolean toReturn = false;
-        try {
-            JSONObject js_result = new JSONObject(newResponse);
-            JSONObject details = new JSONObject(js_result.getString("marketdetails"));
-            String products = (String) details.get("Products");
-            Log.d("Products are", products);
-            Log.d("Filter is ", myFilters[0]);
-            if (products.contains(myFilters[0])) {
-                toReturn = true;
-            }
-        } catch (Exception ex){
-            Log.d("Something wrong", "Something Wrong");
-        }
-        return toReturn;
+
+
+    @Override
+    protected void onPostExecute(Void voids) {
+        final ListView lv = (ListView) myActivity.findViewById(R.id.search_list);
+        lv.setAdapter(myAdapter);
+        myActivity.findViewById(R.id.search_loading).setVisibility(View.INVISIBLE);
+        myActivity.findViewById(R.id.search_button).setEnabled(true);
+        myAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Prepares thread.
+     * Sets search button to disabled.
+     */
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        myActivity.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+        myActivity.findViewById(R.id.search_button).setEnabled(false);
     }
 
     @Override
-    protected void onPostExecute(String response) {
-        if (response.equals("1")) {
-            returnValue = "1";
-        } else {
-            returnValue = "0";
-        }
-    }
-
-    public String getReturnValue() {
-        Log.d("return value is", returnValue);
-        return returnValue;
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
     }
 }

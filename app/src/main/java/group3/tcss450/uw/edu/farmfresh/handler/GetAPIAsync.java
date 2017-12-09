@@ -49,15 +49,19 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
 
     private Map<String, Integer> myMap;
 
+    private String[] myFilters;
+
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
      * @param activity SearchActivity
      */
-    public GetAPIAsync(SearchActivity activity, ArrayList<String> list, HashMap<String, Integer> map) {
+    public GetAPIAsync(SearchActivity activity, ArrayList<String> list, HashMap<String, Integer> map,
+                       String[] theFilters) {
         this.activity = activity;
         this.itemList = list;
         this.myMap = map;
+        myFilters = theFilters;
     }
 
     /**
@@ -113,18 +117,29 @@ public class GetAPIAsync extends AsyncTask<String, Void, String> {
                 final ListView list = (ListView) activity.findViewById(R.id.search_list);
                 myMap.clear();
                 itemList.clear();
+                /*Should launch the GETApiHelperAsync here
+                  and pass js_array, itemList, myMap and filters to it.
+                 */
                 for(int i = 0; i < js_array.length(); i++){
                     JSONObject obj = js_array.getJSONObject(i);
 
                     Integer id = obj.getInt("id");
                     String market_name=obj.getString("marketname");
                     Log.d("MARKET_NAME", market_name);
+                    market_name = market_name.replaceFirst(" ", "(mi) ");
                     itemList.add(market_name);
                     myMap.put(market_name, id);
                 }
-                activity.saveMarketList(itemList, myMap);
+                //activity.saveMarketList(itemList, myMap);
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) list.getAdapter();
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
+                /*OR Should launch the GETApiHelperAsync here
+                  and pass  itemList, myMap, adapter and filters to it.
+                 */
+                GetAPIHelperAsync helperAsync = new GetAPIHelperAsync(myFilters,
+                        myMap, adapter, itemList, activity);
+                helperAsync.execute();
+                activity.saveMarketList(itemList, myMap);
             } catch (Exception ex) {
                 //not JSON RETURNED
             }
